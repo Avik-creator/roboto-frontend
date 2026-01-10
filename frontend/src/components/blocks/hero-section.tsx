@@ -24,11 +24,11 @@ export function HeroSection({ image, imagePath }: HeroSectionProps) {
       : '/homepageImage1.png'
 
   return (
-    <section className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
+    <section className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden bg-background">
       <motion.div
-        initial={{ scale: 1.1, opacity: 0 }}
+        initial={{ scale: 1.05, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full h-full"
       >
         <Image
@@ -36,6 +36,7 @@ export function HeroSection({ image, imagePath }: HeroSectionProps) {
           alt={image?.alt || 'Jamb hero image'}
           fill
           priority
+          sizes="100vw"
           className="object-cover"
           style={{
             objectPosition: image?.hotspot

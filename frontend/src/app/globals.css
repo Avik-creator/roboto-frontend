@@ -218,7 +218,6 @@ h6 {
 /* Smooth image loading */
 img {
   opacity: 1;
-  transition: opacity 0.3s ease;
 }
 
 img[data-loading="true"] {

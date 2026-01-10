@@ -186,7 +186,7 @@ export function Footer() {
                         <li key={link.label} className="m-0 p-0">
                           <Link
                             href={link.href}
-                            className="text-[15px] font-primary hover:text-foreground transition-colors no-underline block"
+                            className="text-[15px] font-primary hover:text-foreground transition-colors no-underline block hover:underline"
                             style={{ color: '#9C9C9D' }}
                           >
                             {link.label}
