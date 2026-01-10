@@ -14,6 +14,7 @@ interface Product {
     asset?: SanityImageSource
     alt?: string
   }
+  imagePath?: string // For local images
   aspectRatio?: 'square' | 'portrait' | 'landscape' | 'tall'
 }
 
@@ -49,16 +50,6 @@ const getImageDimensions = (aspectRatio: string) => {
   }
 }
 
-// Placeholder images
-const PRODUCT_PLACEHOLDERS = [
-  'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=400&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=400&h=400&fit=crop',
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
-]
-
 export function ProductGrid({
   sectionTitle,
   products,
@@ -66,64 +57,70 @@ export function ProductGrid({
   variant = 'default',
 }: ProductGridProps) {
   const gridColsClass = {
-    3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+    3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
     4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
     5: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5',
     6: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6',
   }
 
   return (
-    <section className="container-jamb py-12 md:py-20">
-      {sectionTitle && (
-        <motion.h3
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="font-serif text-lg md:text-xl italic text-center mb-10 md:mb-14"
-        >
-          {sectionTitle}
-        </motion.h3>
-      )}
+    <section className="bg-[#E3E3E3] py-16 md:py-24">
+      <div className="container-jamb">
+        {sectionTitle && (
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="font-primary text-[21px] leading-[18px] font-[550] text-center mb-12 md:mb-16 tracking-tight"
+          >
+            {sectionTitle}
+          </motion.h3>
+        )}
 
-      <div className={`grid ${gridColsClass[columns]} gap-4 md:gap-6`}>
-        {products.map((product, index) => {
-          const aspectRatio = product.aspectRatio || (variant === 'mixed-aspect' ? getRandomAspectRatio(index) : 'square')
-          const { width, height } = getImageDimensions(aspectRatio)
-          const placeholderUrl = PRODUCT_PLACEHOLDERS[index % PRODUCT_PLACEHOLDERS.length]
-          const imageUrl = product.image?.asset
-            ? urlFor(product.image.asset).width(width).height(height).quality(85).url()
-            : placeholderUrl
+        <div className={`grid ${gridColsClass[columns]} gap-x-6 md:gap-x-8 gap-y-8 md:gap-y-10`}>
+          {products.map((product, index) => {
+            const aspectRatio = product.aspectRatio || (variant === 'mixed-aspect' ? getRandomAspectRatio(index) : 'square')
+            const { width, height } = getImageDimensions(aspectRatio)
 
-          return (
-            <motion.div
-              key={product._key}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-            >
-              <Link href={product.href || '#'} className="group block">
-                <div className={`relative ${aspectRatioClasses[aspectRatio]} overflow-hidden bg-cream mb-4`}>
-                  <Image
-                    src={imageUrl}
-                    alt={product.image?.alt || product.title}
-                    fill
-                    className="object-cover transition-all duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="text-center">
-                  <h4 className="font-serif text-sm md:text-base italic">
-                    {product.title}
-                  </h4>
-                  {product.subtitle && (
-                    <p className="text-xs text-muted mt-1">{product.subtitle}</p>
-                  )}
-                </div>
-              </Link>
-            </motion.div>
-          )
-        })}
+            const imageUrl = product.imagePath
+              ? product.imagePath
+              : product.image?.asset
+                ? urlFor(product.image.asset).width(width).height(height).quality(85).url()
+                : '/images/placeholder.jpg'
+
+            return (
+              <motion.div
+                key={product._key}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+              >
+                <Link href={product.href || '#'} className="group block">
+                  <div className={`relative ${aspectRatioClasses[aspectRatio]} overflow-hidden bg-[#f5f3f0] mb-4`}>
+                    <Image
+                      src={imageUrl}
+                      alt={product.image?.alt || product.title}
+                      fill
+                      className="object-cover transition-all duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="text-center space-y-1">
+                    <h4 className="font-primary text-[16px] leading-[25px] font-[650] text-foreground">
+                      {product.title}
+                    </h4>
+                    {product.subtitle && (
+                      <p className="font-primary text-[16px] leading-[25px] font-[550] text-[#1a1a1a]">
+                        {product.subtitle}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

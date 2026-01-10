@@ -48,9 +48,10 @@ const demoPageContent = [
     sectionTitle: 'Our latest chimneypieces',
     columns: 3 as const,
     products: [
-      { _key: 'p1', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const },
-      { _key: 'p2', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const },
-      { _key: 'p3', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const },
+      { _key: 'p1', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'landscape' as const, imagePath: '/marblejamb.jpg' },
+      { _key: 'p2', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'landscape' as const, imagePath: '/marblejamb.jpg' },
+      { _key: 'p3', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'landscape' as const, imagePath: '/marblejamb.jpg' },
+      { _key: 'p4', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'landscape' as const, imagePath: '/marblejamb.jpg' },
     ],
   },
   {
@@ -60,11 +61,11 @@ const demoPageContent = [
     columns: 5 as const,
     variant: 'mixed-aspect' as const,
     products: [
-      { _key: 'l1', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const },
-      { _key: 'l2', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'tall' as const },
-      { _key: 'l3', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const },
-      { _key: 'l4', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'tall' as const },
-      { _key: 'l5', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const },
+      { _key: 'l1', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/lightsmalljamb.jpg' },
+      { _key: 'l2', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/lightsmalljamb.jpg' },
+      { _key: 'l3', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/lightsmalljamb.jpg' },
+      { _key: 'l4', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/lightsmalljamb.jpg' },
+      { _key: 'l5', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/lightsmalljamb.jpg' },
     ],
   },
   {
@@ -83,11 +84,11 @@ const demoPageContent = [
     sectionTitle: 'Our latest furniture',
     columns: 5 as const,
     products: [
-      { _key: 'f1', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const },
-      { _key: 'f2', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const },
-      { _key: 'f3', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const },
-      { _key: 'f4', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const },
-      { _key: 'f5', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const },
+      { _key: 'f1', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const, imagePath: '/sofa.png' },
+      { _key: 'f2', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const, imagePath: '/table.png' },
+      { _key: 'f3', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const, imagePath: '/mirror.png' },
+      { _key: 'f4', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const, imagePath: '/chair.png' },
+      { _key: 'f5', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'square' as const, imagePath: '/chair2.png' },
     ],
   },
   {

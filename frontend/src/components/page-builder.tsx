@@ -61,6 +61,7 @@ interface ProductGridBlock extends BaseBlock {
     subtitle?: string
     href?: string
     image?: SanityImage
+    imagePath?: string
     aspectRatio?: 'square' | 'portrait' | 'landscape' | 'tall'
   }>
   columns?: 3 | 4 | 5 | 6
