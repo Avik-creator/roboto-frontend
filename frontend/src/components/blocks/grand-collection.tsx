@@ -51,7 +51,7 @@ export function GrandCollection({
             </h2>
             {description && (
               <div className="flex justify-center">
-                <p className="text-paragraph text-black/70 leading-relaxed max-w-md mt-6 text-center">
+                <p className="text-paragraph mt-6">
                   {description}
                 </p>
               </div>
