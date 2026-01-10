@@ -73,10 +73,10 @@ const demoPageContent = [
     _type: 'fullWidthFeature' as const,
     title: 'Furniture',
     description: 'Lorem ipsum dolor sit amet, eu labore vulputate at labore in dolore consequatur adipiscing erat, aute do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    ctaLabel: 'Explore Furniture',
+    ctaLabel: 'Explore our Furniture',
     ctaHref: '/furniture',
+    imagePath: '/furniture.png',
     contentPosition: 'left' as const,
-    overlayOpacity: 0.3,
   },
   {
     _key: 'grid-furniture',

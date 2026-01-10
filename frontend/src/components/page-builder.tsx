@@ -75,6 +75,7 @@ interface FullWidthFeatureBlock extends BaseBlock {
   ctaLabel?: string
   ctaHref?: string
   backgroundImage?: SanityImage
+  imagePath?: string
   contentPosition?: 'left' | 'center' | 'right'
   overlayOpacity?: number
 }

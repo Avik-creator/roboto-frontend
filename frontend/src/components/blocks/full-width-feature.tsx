@@ -16,12 +16,10 @@ interface FullWidthFeatureProps {
     alt?: string
     hotspot?: { x: number; y: number }
   }
+  imagePath?: string
   contentPosition?: 'left' | 'center' | 'right'
   overlayOpacity?: number
 }
-
-// Furniture section placeholder
-const FURNITURE_PLACEHOLDER = 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&h=900&fit=crop'
 
 export function FullWidthFeature({
   title,
@@ -29,73 +27,69 @@ export function FullWidthFeature({
   ctaLabel,
   ctaHref = '#',
   backgroundImage,
+  imagePath,
   contentPosition = 'left',
-  overlayOpacity = 0.2,
 }: FullWidthFeatureProps) {
-  const imageUrl = backgroundImage?.asset
-    ? urlFor(backgroundImage.asset).width(1920).height(900).quality(90).url()
-    : FURNITURE_PLACEHOLDER
-
-  const positionClasses = {
-    left: 'items-start text-left',
-    center: 'items-center text-center',
-    right: 'items-end text-right',
-  }
+  const imageUrl = imagePath
+    ? imagePath
+    : backgroundImage?.asset
+      ? urlFor(backgroundImage.asset).width(1200).height(1600).quality(90).url()
+      : '/furniture.png'
 
   return (
-    <section id={title.toLowerCase().replace(/\s+/g, '-')} className="relative w-full min-h-[60vh] md:min-h-[70vh] overflow-hidden">
-      {/* Background Image */}
-      <motion.div
-        initial={{ scale: 1.1 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="absolute inset-0"
-      >
-        <Image
-          src={imageUrl}
-          alt={backgroundImage?.alt || title}
-          fill
-          className="object-cover"
-          style={{
-            objectPosition: backgroundImage?.hotspot
-              ? `${backgroundImage.hotspot.x * 100}% ${backgroundImage.hotspot.y * 100}%`
-              : 'center',
-          }}
-        />
-        {/* Overlay */}
-        <div
-          className="absolute inset-0 bg-black"
-          style={{ opacity: overlayOpacity }}
-        />
-      </motion.div>
+    <section id={title.toLowerCase().replace(/\s+/g, '-')} className="bg-[#f5f3f0] py-20 md:py-32 overflow-hidden">
+      <div className="container-jamb">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="flex flex-col items-center text-center space-y-8"
+          >
+            <div className="max-w-[499px] flex flex-col items-center text-center">
+              <h2 className="text-heading">
+                {title}
+              </h2>
+              {description && (
+                <p className="text-paragraph mt-6 text-black/90">
+                  {description}
+                </p>
+              )}
+            </div>
 
-      {/* Content */}
-      <div className="relative container-jamb h-full min-h-[60vh] md:min-h-[70vh] flex flex-col justify-center py-16 md:py-24">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className={`flex flex-col ${positionClasses[contentPosition]} max-w-xl`}
-        >
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl italic text-white tracking-tight">
-            {title}
-          </h2>
-          {description && (
-            <p className="text-sm md:text-base text-white/80 mt-4 leading-relaxed">
-              {description}
-            </p>
-          )}
-          {ctaLabel && (
-            <Link
-              href={ctaHref}
-              className="mt-6 btn-outline border-white text-white hover:bg-white hover:text-foreground inline-block"
-            >
-              {ctaLabel}
-            </Link>
-          )}
-        </motion.div>
+            {ctaLabel && (
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="btn-outline px-10 py-3"
+              >
+                {ctaLabel}
+              </motion.button>
+            )}
+          </motion.div>
+
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: 'easeOut' }}
+            className="relative aspect-3/4 overflow-hidden shadow-sm"
+          >
+            <Image
+              src={imageUrl}
+              alt={backgroundImage?.alt || title}
+              fill
+              className="object-cover transition-transform duration-1000 hover:scale-105"
+              style={{
+                objectPosition: backgroundImage?.hotspot
+                  ? `${backgroundImage.hotspot.x * 100}% ${backgroundImage.hotspot.y * 100}%`
+                  : 'center',
+              }}
+            />
+          </motion.div>
+        </div>
       </div>
     </section>
   )

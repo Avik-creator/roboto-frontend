@@ -25,20 +25,22 @@ export function NewsletterSection({
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="flex flex-col items-center text-center space-y-8"
           >
-            <h2 className="font-primary text-4xl md:text-[42px] leading-[1.2] text-foreground max-w-md">
+            <h2 className="text-heading">
               {title}
             </h2>
-            <p className="text-paragraph text-muted leading-relaxed max-w-md text-[16px]">
+            <p className="text-paragraph mt-6">
               {description}
             </p>
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-10 py-3 border border-[#737373] text-[16px] font-primary hover:bg-foreground hover:text-white transition-all duration-300"
-            >
-              Discover more
-            </motion.button>
+            <div className="flex justify-center mt-6">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="btn-outline"
+              >
+                Discover more
+              </motion.button>
+            </div>
           </motion.div>
 
           {/* Right Image Content */}
