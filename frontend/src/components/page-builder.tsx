@@ -10,6 +10,14 @@ import {
   StoriesGrid,
   NewsletterSection,
 } from './blocks'
+import type { SanityImageSource } from '../sanity/lib/image'
+
+// Shared Image Type for Sanity
+interface SanityImage {
+  asset?: SanityImageSource
+  alt?: string
+  hotspot?: { x: number; y: number }
+}
 
 // Type definitions for page builder blocks
 interface BaseBlock {
@@ -19,11 +27,8 @@ interface BaseBlock {
 
 interface HeroBlock extends BaseBlock {
   _type: 'heroSection'
-  image?: {
-    asset?: unknown
-    alt?: string
-    hotspot?: { x: number; y: number }
-  }
+  image?: SanityImage
+  imagePath?: string
 }
 
 interface CategoryNavBlock extends BaseBlock {
@@ -42,7 +47,8 @@ interface FeatureBlock extends BaseBlock {
   ctaLabel?: string
   ctaHref?: string
   refineLabel?: string
-  image?: unknown
+  image?: SanityImage
+  imagePath?: string
   imagePosition?: 'left' | 'right'
 }
 
@@ -54,7 +60,7 @@ interface ProductGridBlock extends BaseBlock {
     title: string
     subtitle?: string
     href?: string
-    image?: unknown
+    image?: SanityImage
     aspectRatio?: 'square' | 'portrait' | 'landscape' | 'tall'
   }>
   columns?: 3 | 4 | 5 | 6
@@ -67,7 +73,7 @@ interface FullWidthFeatureBlock extends BaseBlock {
   description?: string
   ctaLabel?: string
   ctaHref?: string
-  backgroundImage?: unknown
+  backgroundImage?: SanityImage
   contentPosition?: 'left' | 'center' | 'right'
   overlayOpacity?: number
 }
@@ -79,7 +85,7 @@ interface GrandCollectionBlock extends BaseBlock {
   description?: string
   ctaLabel?: string
   ctaHref?: string
-  image?: unknown
+  image?: SanityImage
 }
 
 interface StoriesGridBlock extends BaseBlock {
@@ -90,7 +96,8 @@ interface StoriesGridBlock extends BaseBlock {
     title: string
     subtitle?: string
     href?: string
-    image?: unknown
+    image?: SanityImage
+    imagePath?: string
   }>
 }
 
@@ -138,10 +145,11 @@ export function PageBuilder({ content }: PageBuilderProps) {
           case 'newsletterSection':
             return <NewsletterSection key={block._key} {...block} />
           default:
-            console.warn(`Unknown block type: ${(block as BaseBlock)._type}`)
+            const unknownBlock = block as BaseBlock
+            console.warn(`Unknown block type: ${unknownBlock._type}`)
             return (
-              <div key={block._key} className="p-4 bg-red-100 text-red-600">
-                Unknown block type: {(block as BaseBlock)._type}
+              <div key={unknownBlock._key} className="p-4 bg-red-100 text-red-600">
+                Unknown block type: {unknownBlock._type}
               </div>
             )
         }

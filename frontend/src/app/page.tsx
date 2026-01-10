@@ -107,7 +107,6 @@ const demoPageContent = [
       { _key: 's3', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
       { _key: 's4', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
       { _key: 's5', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
-      { _key: 's6', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
     ],
   },
   {
@@ -124,7 +123,7 @@ export default function HomePage() {
       <Header />
       <div className="pt-16">
         <PageBuilder content={demoPageContent} />
-        </div>
+      </div>
       <Footer />
     </>
   )
