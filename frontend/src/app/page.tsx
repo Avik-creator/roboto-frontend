@@ -29,6 +29,7 @@ const demoPageContent = [
     description: 'Lorem ipsum dolor sit amet, eu labore vulputate at labore in dolore consequatur adipiscing erat, aute do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et sunt labore et dolore magna aliqua vel ipsum.',
     refineLabel: 'Refine by: Chimneypiece',
     ctaHref: '/fireplaces',
+    imagePath: '/fireplaceimage.png',
     imagePosition: 'right' as const,
   },
   {
@@ -36,8 +37,9 @@ const demoPageContent = [
     _type: 'featureSection' as const,
     title: 'Lighting',
     description: 'Lorem ipsum dolor sit amet, eu labore vulputate at labore in dolore consequatur adipiscing erat, aute do eiusmod tempor incididunt ut labore. Eu ante cum alia tum rem, incididunt ut labore labore incididunt.',
-    refineLabel: 'Fireplaces & Lighting',
+    refineLabel: 'Explore our Lighting',
     ctaHref: '/lighting',
+    imagePath: '/lighting.png',
     imagePosition: 'left' as const,
   },
   {
