@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion } from 'motion/react'
 import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
 
@@ -35,7 +34,7 @@ export function GrandCollection({
     : COLLECTION_PLACEHOLDER
 
   return (
-    <section className="bg-charcoal text-white py-16 md:py-24">
+    <section className="bg-white py-16 md:py-24">
       <div className="container-jamb">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
           {/* Content */}
@@ -44,28 +43,27 @@ export function GrandCollection({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="space-y-6"
+            className="space-y-12"
           >
-            {eyebrow && (
-              <span className="text-xs uppercase tracking-widest text-white/60">
-                {eyebrow}
-              </span>
-            )}
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl italic tracking-tight">
+
+            <h2 className="text-heading italic tracking-tight">
               {title}
             </h2>
             {description && (
-              <p className="text-sm md:text-base text-white/70 leading-relaxed max-w-md">
-                {description}
-              </p>
+              <div className="flex justify-center">
+                <p className="text-paragraph text-black/70 leading-relaxed max-w-md mt-6 text-center">
+                  {description}
+                </p>
+              </div>
             )}
             {ctaLabel && (
-              <Link
-                href={ctaHref}
-                className="mt-4 btn-outline border-white text-white hover:bg-white hover:text-charcoal inline-block"
-              >
-                {ctaLabel}
-              </Link>
+              <div className="flex justify-center mt-6">
+                <button
+                  className="btn-outline"
+                >
+                  {ctaLabel}
+                </button>
+              </div>
             )}
           </motion.div>
 

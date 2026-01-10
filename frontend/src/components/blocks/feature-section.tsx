@@ -50,12 +50,12 @@ export function FeatureSection({
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className={`flex flex-col items-center text-center space-y-10 ${!isImageRight ? 'lg:order-2' : ''}`}
           >
-            <div className="space-y-6 max-w-[499px] min-h-[74px] flex flex-col justify-center">
+            <div className="space-y-10 max-w-[499px] min-h-[74px] flex flex-col justify-center">
               <h2 className="font-primary text-[34px] leading-[48px] font-[550] tracking-tight text-foreground">
                 {title}
               </h2>
               {description && (
-                <p className="text-[16px] leading-[25px] font-primary font-[550] text-[#1a1a1a] opacity-90">
+                <p className="text-[16px] leading-[25px] font-primary font-[550] text-[#1a1a1a] opacity-90 mt-6">
                   {description}
                 </p>
               )}
@@ -79,7 +79,7 @@ export function FeatureSection({
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: 'easeOut' }}
-            className={`relative aspect-[3/4] overflow-hidden shadow-sm ${!isImageRight ? 'lg:order-1' : ''}`}
+            className={`relative aspect-3/4 overflow-hidden shadow-sm ${!isImageRight ? 'lg:order-1' : ''}`}
           >
             <Image
               src={imageUrl}

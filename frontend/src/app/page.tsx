@@ -46,12 +46,12 @@ const demoPageContent = [
     _key: 'grid-chimneypieces',
     _type: 'productGrid' as const,
     sectionTitle: 'Our latest chimneypieces',
-    columns: 3 as const,
+    columns: 4 as const,
     products: [
-      { _key: 'p1', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'landscape' as const, imagePath: '/marblejamb.jpg' },
-      { _key: 'p2', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'landscape' as const, imagePath: '/marblejamb.jpg' },
-      { _key: 'p3', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'landscape' as const, imagePath: '/marblejamb.jpg' },
-      { _key: 'p4', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'landscape' as const, imagePath: '/marblejamb.jpg' },
+      { _key: 'p1', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/marblejamb.jpg' },
+      { _key: 'p2', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/marblejamb.jpg' },
+      { _key: 'p3', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/marblejamb.jpg' },
+      { _key: 'p4', title: 'Lorem Ipsum', subtitle: 'Subtitle', aspectRatio: 'portrait' as const, imagePath: '/marblejamb.jpg' },
     ],
   },
   {

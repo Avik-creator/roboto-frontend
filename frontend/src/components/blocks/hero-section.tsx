@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { motion } from 'motion/react'
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import type { SanityImageSource } from '@/sanity/lib/image'
 import { urlFor } from '@/sanity/lib/image'
 
 interface HeroSectionProps {
@@ -17,11 +17,11 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ image, imagePath }: HeroSectionProps) {
-  const imageUrl = imagePath 
-    ? imagePath 
+  const imageUrl = imagePath
+    ? imagePath
     : image?.asset
-    ? urlFor(image.asset).width(1920).height(800).quality(90).url()
-    : '/images/hero.jpg'
+      ? urlFor(image.asset).width(1920).height(800).quality(90).url()
+      : '/images/hero.jpg'
 
   return (
     <section className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
