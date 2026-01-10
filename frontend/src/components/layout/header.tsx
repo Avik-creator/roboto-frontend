@@ -9,75 +9,66 @@ export function Header() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm"
+      className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/40"
     >
-      <div className="container-jamb flex items-center justify-between py-5">
+      <div className="container-jamb flex items-center justify-between py-6">
         {/* Logo */}
-        <Link href="/" className="font-primary text-2xl md:text-3xl tracking-tight">
+        <Link href="/" className="font-primary text-[32px] md:text-[40px] tracking-tight leading-none text-foreground">
           Jamb.
         </Link>
 
         {/* Right Navigation Icons */}
-        <div className="flex items-center gap-4 md:gap-6">
-          {/* Grid View Icon */}
+        <div className="flex items-center gap-2 md:gap-6">
+          {/* Search Icon */}
           <button
             className="p-2 hover:opacity-60 transition-opacity"
-            aria-label="Grid view"
+            aria-label="Search"
           >
             <svg
               width="20"
               height="20"
-              viewBox="0 0 20 20"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1"
-              style={{ stroke: '#9C9C9D' }}
+              strokeWidth="0.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-muted"
             >
-              <rect x="2" y="2" width="6" height="6" />
-              <rect x="12" y="2" width="6" height="6" />
-              <rect x="2" y="12" width="6" height="6" />
-              <rect x="12" y="12" width="6" height="6" />
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
           </button>
 
-          {/* List View Icon */}
+          {/* Email Icon */}
           <button
             className="p-2 hover:opacity-60 transition-opacity"
-            aria-label="List view"
+            aria-label="Newsletter"
           >
             <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1"
-              style={{ stroke: '#9C9C9D' }}
+              strokeWidth="0.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-muted"
             >
-              <line x1="2" y1="4" x2="18" y2="4" />
-              <line x1="2" y1="10" x2="18" y2="10" />
-              <line x1="2" y1="16" x2="18" y2="16" />
+              <rect x="2" y="4" width="20" height="16" rx="0" />
+              <path d="m22 7-10 7L2 7" />
             </svg>
           </button>
 
           {/* Menu Icon */}
           <button
-            className="p-2 hover:opacity-60 transition-opacity"
+            className="p-2 hover:opacity-60 transition-opacity flex flex-col gap-[5px]"
             aria-label="Open menu"
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-              style={{ stroke: '#9C9C9D' }}
-            >
-              <line x1="2" y1="5" x2="18" y2="5" />
-              <line x1="2" y1="10" x2="18" y2="10" />
-              <line x1="2" y1="15" x2="18" y2="15" />
-            </svg>
+            <div className="w-7 h-px bg-muted"></div>
+            <div className="w-7 h-px bg-muted"></div>
+            <div className="w-7 h-px bg-muted"></div>
           </button>
         </div>
       </div>

@@ -26,9 +26,9 @@ export function CategoryNavigation({ categories = defaultCategories }: CategoryN
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="container-jamb py-6 md:py-10"
+      className="container-jamb py-10 md:py-16"
     >
-      <div className="flex flex-wrap items-center justify-center gap-3 md:gap-8">
+      <div className="flex flex-wrap items-center justify-center gap-1 md:gap-4 mt-4 md:mt-6">
         {categories.map((category, index) => (
           <motion.span
             key={category._key}
@@ -46,7 +46,7 @@ export function CategoryNavigation({ categories = defaultCategories }: CategoryN
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all duration-300 group-hover:w-full" />
             </Link>
             {index < categories.length - 1 && (
-              <span className="ml-3 md:ml-8 text-muted">/</span>
+              <span className="ml-2 md:ml-4 text-muted">|</span>
             )}
           </motion.span>
         ))}

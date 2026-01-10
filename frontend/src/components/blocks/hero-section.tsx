@@ -21,7 +21,7 @@ export function HeroSection({ image, imagePath }: HeroSectionProps) {
     ? imagePath
     : image?.asset
       ? urlFor(image.asset).width(1920).height(800).quality(90).url()
-      : '/images/hero.jpg'
+      : '/homepageImage1.png'
 
   return (
     <section className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
