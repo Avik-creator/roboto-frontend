@@ -1,0 +1,8 @@
+export { heroSection } from './hero-section'
+export { categoryNavigation } from './category-navigation'
+export { featureSection } from './feature-section'
+export { productGrid } from './product-grid'
+export { fullWidthFeature } from './full-width-feature'
+export { grandCollection } from './grand-collection'
+export { storiesGrid } from './stories-grid'
+export { newsletterSection } from './newsletter-section'

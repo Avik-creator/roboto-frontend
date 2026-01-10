@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Galaxie Copernicus';
+  src: url('/fonts/GalaxieCopernicus-Medium.woff2') format('woff2');
+  font-weight: 550;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #f5f3f0;
+  --foreground: #1a1a1a;
+  --muted: #9C9C9D;
+  --accent: #8b7355;
+  --border: #e5e2dc;
+  --cream: #f9f7f4;
+  --charcoal: #2d2d2d;
+  --icon-border: #9C9C9D;
+  --button-border: #737373;
+  --footer-bg: #E3E3E3;
+  --footer-link: #9C9C9D;
+  
+  /* Font family variables */
+  --font-primary: 'Galaxie Copernicus', Georgia, 'Times New Roman', serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-cream: var(--cream);
+  --color-charcoal: var(--charcoal);
+  --color-icon-border: var(--icon-border);
+  --color-button-border: var(--button-border);
+  --color-footer-bg: var(--footer-bg);
+  --color-footer-link: var(--footer-link);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 550;
+  line-height: 25px;
+  letter-spacing: 0%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--charcoal);
+}
+
+/* Typography utilities */
+.font-primary {
+  font-family: var(--font-primary);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Paragraph style */
+p, .text-paragraph {
+  font-family: var(--font-primary);
+  font-weight: 550;
+  font-size: 16px;
+  line-height: 25px;
+  letter-spacing: 0%;
+}
+
+/* Heading style */
+h1, h2, h3, h4, h5, h6, .text-heading {
+  font-family: var(--font-primary);
+  font-weight: 550;
+  font-size: 34px;
+  line-height: 48px;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+/* Button style */
+.btn-outline {
+  font-family: var(--font-primary);
+  font-weight: 550;
+  font-size: 16px;
+  line-height: 25px;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid var(--button-border);
+  padding: 0.75rem 1.5rem;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Container */
+.container-jamb {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-jamb {
+    padding: 0 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-jamb {
+    padding: 0 4rem;
+  }
+}
+
+/* Aspect ratio utilities for product grids */
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.aspect-landscape {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect-tall {
+  aspect-ratio: 2 / 3;
+}
+
+/* Animation keyframes for staggered animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Selection styling */
+::selection {
+  background: var(--charcoal);
+  color: var(--cream);
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Smooth image loading */
+img {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+img[data-loading="true"] {
+  opacity: 0;
+}
