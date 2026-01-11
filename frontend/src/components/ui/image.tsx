@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import {motion} from 'motion/react'
-import {useImageLoad} from '@/utils'
+import { motion } from 'motion/react'
+import { useImageLoad } from '@/utils'
 
 export function ImagePlaceholder({
   alt,
@@ -76,7 +76,7 @@ export function ResponsiveImage({
   enableHover = true,
   parallax = false,
 }: ResponsiveImageProps) {
-  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
+  const { hasError, isLoaded, handleError, handleLoad } = useImageLoad()
 
   const combinedHandleLoad = () => {
     handleLoad()
@@ -93,7 +93,11 @@ export function ResponsiveImage({
   }
 
   const imageElement = (
-    <div className={`${aspectRatio} relative overflow-hidden bg-[#f5f3f0] ${className} group`}>
+    <motion.div
+      className={`${aspectRatio} relative overflow-hidden bg-[#f5f3f0] ${className}`}
+      whileHover={enableHover ? { scale: 1.05 } : undefined}
+      transition={enableHover ? { duration: 0.6, ease: [0.22, 1, 0.36, 1] } : undefined}
+    >
       <Image
         src={src}
         alt={alt}
@@ -106,21 +110,23 @@ export function ResponsiveImage({
         onLoad={combinedHandleLoad}
         onError={combinedHandleError}
         className={`
-          object-cover 
-          transition-all 
-          duration-[1200ms] 
-          ease-[cubic-bezier(0.12,0.88,0.18,1)]
+          object-cover
+          transition-opacity
+          duration-700
+          ease-[cubic-bezier(0.22,1,0.36,1)]
           ${isLoaded ? 'opacity-100' : 'opacity-0'}
-          ${enableHover ? 'group-hover:scale-105' : ''}
           ${parallax ? 'will-change-transform' : ''}
         `}
-        style={fill ? {objectPosition} : undefined}
+        style={fill ? { objectPosition } : undefined}
       />
       {/* Overlay for depth on hover */}
-      {enableHover && (
-        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none" />
-      )}
-    </div>
+      <motion.div
+        className="absolute inset-0 bg-black pointer-events-none"
+        initial={{ opacity: 0 }}
+        whileHover={enableHover ? { opacity: 0.05 } : undefined}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      />
+    </motion.div>
   )
 
   if (animate && animationConfig) {
@@ -129,7 +135,7 @@ export function ResponsiveImage({
         initial={animationConfig.initial}
         animate={animationConfig.animate}
         whileInView={animationConfig.animate}
-        viewport={{once: true, margin: '-80px'}}
+        viewport={{ once: true, margin: '-80px' }}
         transition={animationConfig.transition}
       >
         {imageElement}
