@@ -161,7 +161,7 @@ function FooterSection({
           <motion.svg
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}
-            className="w-4 h-4 flex-shrink-0 text-muted"
+            className="w-4 h-4 shrink-0 text-muted"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

@@ -1,9 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import {motion} from 'motion/react'
-import {DURATIONS, EASINGS, useImageLoad} from '@/utils'
-import {Section, Container, ContentBlock, ImagePlaceholder} from '@/components/ui'
+import { motion } from 'motion/react'
+import { DURATIONS, EASINGS, useImageLoad } from '@/utils'
+import { Section, Container, ContentBlock, ImagePlaceholder } from '@/components/ui'
 
 interface NewsletterSectionProps {
   _key: string
@@ -11,12 +11,12 @@ interface NewsletterSectionProps {
   description?: string
 }
 
-function NewsletterImage({src, alt}: {src: string; alt: string}) {
-  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
+function NewsletterImage({ src, alt }: { src: string; alt: string }) {
+  const { hasError, isLoaded, handleError, handleLoad } = useImageLoad()
 
   if (hasError) {
     return (
-      <div className="w-full max-w-[500px] aspect-[4/5] p-4 md:p-8">
+      <div className="w-full max-w-[500px] aspect-4/5 p-4 md:p-8">
         <ImagePlaceholder alt={alt} aspectRatio="w-full h-full" className="shadow-sm" />
       </div>
     )
@@ -24,13 +24,13 @@ function NewsletterImage({src, alt}: {src: string; alt: string}) {
 
   return (
     <motion.div
-      initial={{opacity: 0, scale: 0.95}}
-      whileInView={{opacity: 1, scale: 1}}
-      viewport={{once: true}}
-      transition={{duration: DURATIONS.slow, delay: 0.2, ease: EASINGS.elegant}}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: DURATIONS.slow, delay: 0.2, ease: EASINGS.elegant }}
       className="relative flex justify-center lg:justify-end"
     >
-      <div className="relative w-full max-w-[500px] aspect-[4/5] bg-white shadow-sm p-4 md:p-8">
+      <div className="relative w-full max-w-[500px] aspect-4/5 bg-white shadow-sm p-4 md:p-8">
         <div className="relative w-full h-full">
           <Image
             src={src}
@@ -64,7 +64,7 @@ export function NewsletterSection({
             title={title}
             titleId="newsletter-title"
             description={description}
-            primaryButton={{label: 'Discover more', href: '#'}}
+            primaryButton={{ label: 'Discover more', href: '#' }}
             alignment="center"
           />
 
