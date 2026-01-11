@@ -182,8 +182,8 @@ export function FeatureSection({
   const carouselImages = images || [
     {
       src: singleImageUrl,
-      alt: (image && 'alt' in image ? image.alt : null) || image?.alt || title,
-      hotspot: image?.hotspot,
+      alt: (image && 'alt' in image && typeof image.alt === 'string' ? image.alt : undefined) || (image && !('src' in image) && image.alt) || title,
+      hotspot: image && 'hotspot' in image ? image.hotspot : undefined,
     },
   ]
 
@@ -210,13 +210,13 @@ export function FeatureSection({
           ) : (
             <ResponsiveImage
               src={singleImageUrl}
-              alt={image?.alt || title}
+              alt={(image && 'alt' in image && typeof image.alt === 'string' ? image.alt : undefined) || (image && !('src' in image) && image.alt) || title}
               fill
               priority={title === 'Fireplaces'}
               aspectRatio="aspect-3/4"
               className="shadow-sm transition-transform duration-1200 hover:scale-105"
               objectPosition={
-                image?.hotspot ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : 'center'
+                image && 'hotspot' in image && image.hotspot ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : 'center'
               }
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
