@@ -1,8 +1,16 @@
 'use client'
 
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
+import type { StaticImageData } from 'next/image'
 import {getSectionId, getObjectPosition} from '@/utils'
 import {ResponsiveImage, Section, Container, ContentBlock} from '@/components/ui'
+
+// Union type for images that can be either StaticImageData or SanityImage
+type ImageSource = StaticImageData | {
+  asset?: SanityImageSource
+  alt?: string
+  hotspot?: {x: number; y: number}
+}
 
 interface FullWidthFeatureProps {
   _key: string
@@ -10,11 +18,7 @@ interface FullWidthFeatureProps {
   description?: string
   ctaLabel?: string
   ctaHref?: string
-  backgroundImage?: {
-    asset?: SanityImageSource
-    alt?: string
-    hotspot?: {x: number; y: number}
-  }
+  backgroundImage?: ImageSource
   imagePath?: string
   contentPosition?: 'left' | 'center' | 'right'
   overlayOpacity?: number
@@ -31,9 +35,11 @@ export function FullWidthFeature({
 }: FullWidthFeatureProps) {
   const imageUrl = imagePath
     ? imagePath
-    : backgroundImage?.asset
-      ? urlFor(backgroundImage.asset).width(1200).height(1600).quality(90).url()
-      : '/furniture.png'
+    : backgroundImage && 'src' in backgroundImage
+      ? backgroundImage.src // StaticImageData
+      : backgroundImage?.asset
+        ? urlFor(backgroundImage.asset).width(1200).height(1600).quality(90).url()
+        : '/furniture.png'
 
   const sectionId = getSectionId(title)
 
@@ -63,7 +69,7 @@ export function FullWidthFeature({
           {contentPosition !== 'center' && (
             <ResponsiveImage
               src={imageUrl}
-              alt={backgroundImage?.alt || title}
+              alt={(backgroundImage && 'alt' in backgroundImage ? backgroundImage.alt : null) || backgroundImage?.alt || title}
               fill
               aspectRatio="aspect-3/4"
               className="shadow-sm transition-transform duration-1200 hover:scale-105"

@@ -1,6 +1,16 @@
-import {Header} from '@/components/layout/header'
-import {Footer} from '@/components/layout/footer'
-import {PageBuilder} from '@/components/page-builder'
+import { Header } from '@/components/layout/header'
+import { Footer } from '@/components/layout/footer'
+import { PageBuilder } from '@/components/page-builder'
+import FireplaceImage from '@/../public/fireplaceimage.png'
+import LightingImage from '@/../public/lighting.png'
+import MarbleJambImage from '@/../public/marblejamb.jpg'
+import LightSmallJambImage from '@/../public/lightsmalljamb.jpg'
+import MirrorImage from '@/../public/mirror.png'
+import FurnitureImage from '@/../public/furniture.png'
+import TableImage from '@/../public/table.png'
+import ChairImage from '@/../public/chair.png'
+import Chair2Image from '@/../public/chair2.png'
+import SofaImage from '@/../public/sofa.png'
 
 // Demo data to render the page builder with placeholder content
 // In production, this would come from Sanity
@@ -16,10 +26,10 @@ const demoPageContent = [
     _key: 'nav-1',
     _type: 'categoryNavigation' as const,
     categories: [
-      {_key: 'cat-1', label: 'Fireplaces', href: '#fireplaces'},
-      {_key: 'cat-2', label: 'Lighting', href: '#lighting'},
-      {_key: 'cat-3', label: 'Furniture', href: '#furniture'},
-      {_key: 'cat-4', label: 'Journal', href: '#journal'},
+      { _key: 'cat-1', label: 'Fireplaces', href: '#fireplaces' },
+      { _key: 'cat-2', label: 'Lighting', href: '#lighting' },
+      { _key: 'cat-3', label: 'Furniture', href: '#furniture' },
+      { _key: 'cat-4', label: 'Journal', href: '#journal' },
     ],
   },
   {
@@ -30,7 +40,7 @@ const demoPageContent = [
       'Lorem ipsum dolor sit amet, eu labore vulputate at labore in dolore consequatur adipiscing erat, aute do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et sunt labore et dolore magna aliqua vel ipsum.',
     refineLabel: 'Explore our Fireplaces',
     ctaHref: '/fireplaces',
-    imagePath: '/fireplaceimage.png',
+    image: FireplaceImage,
     imagePosition: 'right' as const,
     secondaryButton: {
       label: 'Sell an Antique Chimneypiece',
@@ -45,7 +55,7 @@ const demoPageContent = [
       'Lorem ipsum dolor sit amet, eu labore vulputate at labore in dolore consequatur adipiscing erat, aute do eiusmod tempor incididunt ut labore. Eu ante cum alia tum rem, incididunt ut labore labore incididunt.',
     refineLabel: 'Explore our Lighting',
     ctaHref: '/lighting',
-    imagePath: '/lighting.png',
+    image: LightingImage,
     imagePosition: 'left' as const,
   },
   {
@@ -59,28 +69,28 @@ const demoPageContent = [
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/marblejamb.jpg',
+        image: MarbleJambImage,
       },
       {
         _key: 'p2',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/marblejamb.jpg',
+        image: MarbleJambImage,
       },
       {
         _key: 'p3',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/marblejamb.jpg',
+        image: MarbleJambImage,
       },
       {
         _key: 'p4',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/marblejamb.jpg',
+        image: MarbleJambImage,
       },
     ],
   },
@@ -96,35 +106,35 @@ const demoPageContent = [
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/lightsmalljamb.jpg',
+        image: LightSmallJambImage,
       },
       {
         _key: 'l2',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/lightsmalljamb.jpg',
+        image: LightSmallJambImage,
       },
       {
         _key: 'l3',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/lightsmalljamb.jpg',
+        image: LightSmallJambImage,
       },
       {
         _key: 'l4',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/lightsmalljamb.jpg',
+        image: LightSmallJambImage,
       },
       {
         _key: 'l5',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'portrait' as const,
-        imagePath: '/lightsmalljamb.jpg',
+        image: LightSmallJambImage,
       },
     ],
   },
@@ -136,7 +146,7 @@ const demoPageContent = [
       'Lorem ipsum dolor sit amet, eu labore vulputate at labore in dolore consequatur adipiscing erat, aute do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     ctaLabel: 'Explore our Furniture',
     ctaHref: '/furniture',
-    imagePath: '/furniture.png',
+    image: FurnitureImage,
     contentPosition: 'left' as const,
   },
   {
@@ -150,35 +160,35 @@ const demoPageContent = [
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'square' as const,
-        imagePath: '/sofa.png',
+        image: SofaImage
       },
       {
         _key: 'f2',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'square' as const,
-        imagePath: '/table.png',
+        image: TableImage,
       },
       {
         _key: 'f3',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'square' as const,
-        imagePath: '/mirror.png',
+        image: MirrorImage,
       },
       {
         _key: 'f4',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'square' as const,
-        imagePath: '/chair.png',
+        image: ChairImage,
       },
       {
         _key: 'f5',
         title: 'Lorem Ipsum',
         subtitle: 'Subtitle',
         aspectRatio: 'square' as const,
-        imagePath: '/chair2.png',
+        image: Chair2Image,
       },
     ],
   },
@@ -197,11 +207,11 @@ const demoPageContent = [
     _type: 'storiesGrid' as const,
     sectionTitle: 'See more of our latest stories',
     stories: [
-      {_key: 's1', title: 'Lorem Ipsum', subtitle: 'Subtitle'},
-      {_key: 's2', title: 'Lorem Ipsum', subtitle: 'Subtitle'},
-      {_key: 's3', title: 'Lorem Ipsum', subtitle: 'Subtitle'},
-      {_key: 's4', title: 'Lorem Ipsum', subtitle: 'Subtitle'},
-      {_key: 's5', title: 'Lorem Ipsum', subtitle: 'Subtitle'},
+      { _key: 's1', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
+      { _key: 's2', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
+      { _key: 's3', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
+      { _key: 's4', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
+      { _key: 's5', title: 'Lorem Ipsum', subtitle: 'Subtitle' },
     ],
   },
   {

@@ -3,32 +3,38 @@
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
 import type { SanityImageSource } from '@/sanity/lib/image'
+import type { StaticImageData } from 'next/image'
 import { urlFor } from '@/sanity/lib/image'
 import { useImageLoad, usePrefersReducedMotion, getHeroAnimation } from '@/utils'
 import { ImagePlaceholder } from '@/components/ui'
 
+// Union type for images that can be either StaticImageData or SanityImage
+type ImageSource = StaticImageData | {
+  asset?: SanityImageSource
+  alt?: string
+  hotspot?: { x: number; y: number }
+  crop?: { top: number; bottom: number; left: number; right: number }
+}
+
 interface HeroSectionProps {
   _key: string
-  image?: {
-    asset?: SanityImageSource
-    alt?: string
-    hotspot?: { x: number; y: number }
-    crop?: { top: number; bottom: number; left: number; right: number }
-  }
+  image?: ImageSource
   imagePath?: string
 }
 
 export function HeroSection({ image, imagePath }: HeroSectionProps) {
   const imageUrl = imagePath
     ? imagePath
-    : image?.asset
-      ? urlFor(image.asset).width(1920).height(800).quality(90).url()
-      : '/homepageImage1.png'
+    : image && 'src' in image
+      ? image.src // StaticImageData
+      : image?.asset
+        ? urlFor(image.asset).width(1920).height(800).quality(90).url()
+        : '/homepageImage1.png'
 
   const { isLoaded, hasError, handleLoad, handleError } = useImageLoad()
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  const objectPosition = image?.hotspot
+  const objectPosition = (image && 'hotspot' in image && image.hotspot)
     ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
     : 'center'
 
@@ -79,7 +85,7 @@ export function HeroSection({ image, imagePath }: HeroSectionProps) {
         >
           <Image
             src={imageUrl}
-            alt={image?.alt || 'Jamb hero image'}
+            alt={(image && 'alt' in image && typeof image.alt === 'string' ? image.alt : undefined) || (image && !('src' in image) && image.alt) || 'Jamb hero image'}
             fill
             priority
             loading="eager"
@@ -94,7 +100,7 @@ export function HeroSection({ image, imagePath }: HeroSectionProps) {
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
           <ImagePlaceholder
-            alt={image?.alt || 'Jamb hero image'}
+            alt={(image && 'alt' in image && typeof image.alt === 'string' ? image.alt : undefined) || (image && !('src' in image) && image.alt) || 'Jamb hero image'}
             aspectRatio="h-full w-full"
             className="shadow-sm"
           />

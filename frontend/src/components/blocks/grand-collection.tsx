@@ -1,8 +1,16 @@
 'use client'
 
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
+import type { StaticImageData } from 'next/image'
 import {DURATIONS, EASINGS, getObjectPosition} from '@/utils'
 import {ResponsiveImage, Section, Container, ContentBlock} from '@/components/ui'
+
+// Union type for images that can be either StaticImageData or SanityImage
+type ImageSource = StaticImageData | {
+  asset?: SanityImageSource
+  alt?: string
+  hotspot?: {x: number; y: number}
+}
 
 interface GrandCollectionProps {
   _key: string
@@ -11,11 +19,7 @@ interface GrandCollectionProps {
   description?: string
   ctaLabel?: string
   ctaHref?: string
-  image?: {
-    asset?: SanityImageSource
-    alt?: string
-    hotspot?: {x: number; y: number}
-  }
+  image?: ImageSource
 }
 
 const COLLECTION_PLACEHOLDER =
@@ -29,9 +33,11 @@ export function GrandCollection({
   ctaHref = '#',
   image,
 }: GrandCollectionProps) {
-  const imageUrl = image?.asset
-    ? urlFor(image.asset).width(900).height(700).quality(90).url()
-    : COLLECTION_PLACEHOLDER
+  const imageUrl = image && 'src' in image
+    ? image.src // StaticImageData
+    : image?.asset
+      ? urlFor(image.asset).width(900).height(700).quality(90).url()
+      : COLLECTION_PLACEHOLDER
 
   return (
     <Section backgroundColor="white" padding="md" aria-labelledby="grand-collection-title">
@@ -49,7 +55,7 @@ export function GrandCollection({
 
           <ResponsiveImage
             src={imageUrl}
-            alt={image?.alt || title}
+            alt={(image && 'alt' in image ? image.alt : null) || image?.alt || title}
             fill
             aspectRatio="aspect-[4/3]"
             className="transition-transform duration-1200 hover:scale-105"

@@ -11,13 +11,17 @@ import {
   NewsletterSection,
 } from './blocks'
 import type { SanityImageSource } from '../sanity/lib/image'
+import type { StaticImageData } from 'next/image'
 
-// Shared Image Type for Sanity
+// Shared Image Type supporting both Sanity and Next.js images
 interface SanityImage {
   asset?: SanityImageSource
   alt?: string
   hotspot?: { x: number; y: number }
 }
+
+// Union type for images that can be either StaticImageData or SanityImage
+type ImageSource = StaticImageData | SanityImage
 
 // Type definitions for page builder blocks
 interface BaseBlock {
@@ -27,7 +31,7 @@ interface BaseBlock {
 
 interface HeroBlock extends BaseBlock {
   _type: 'heroSection'
-  image?: SanityImage
+  image?: ImageSource
   imagePath?: string
 }
 
@@ -47,7 +51,7 @@ interface FeatureBlock extends BaseBlock {
   ctaLabel?: string
   ctaHref?: string
   refineLabel?: string
-  image?: SanityImage
+  image?: ImageSource
   imagePath?: string
   imagePosition?: 'left' | 'right'
 }
@@ -60,7 +64,7 @@ interface ProductGridBlock extends BaseBlock {
     title: string
     subtitle?: string
     href?: string
-    image?: SanityImage
+    image?: ImageSource
     imagePath?: string
     aspectRatio?: 'square' | 'portrait' | 'landscape' | 'tall'
   }>
@@ -74,7 +78,7 @@ interface FullWidthFeatureBlock extends BaseBlock {
   description?: string
   ctaLabel?: string
   ctaHref?: string
-  backgroundImage?: SanityImage
+  backgroundImage?: ImageSource
   imagePath?: string
   contentPosition?: 'left' | 'center' | 'right'
   overlayOpacity?: number
@@ -87,7 +91,7 @@ interface GrandCollectionBlock extends BaseBlock {
   description?: string
   ctaLabel?: string
   ctaHref?: string
-  image?: SanityImage
+  image?: ImageSource
 }
 
 interface StoriesGridBlock extends BaseBlock {
@@ -98,7 +102,7 @@ interface StoriesGridBlock extends BaseBlock {
     title: string
     subtitle?: string
     href?: string
-    image?: SanityImage
+    image?: ImageSource
     imagePath?: string
   }>
 }

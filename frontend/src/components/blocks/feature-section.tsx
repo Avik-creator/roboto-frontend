@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'motion/react'
 import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
+import type { StaticImageData } from 'next/image'
 import {
   getImageRevealAnimation,
   useCarousel,
@@ -13,6 +14,13 @@ import { ResponsiveImage, ImagePlaceholder, Section, Container, ContentBlock } f
 interface FeatureImageItem {
   src: string
   alt: string
+  hotspot?: { x: number; y: number }
+}
+
+// Union type for images that can be either StaticImageData or SanityImage
+type ImageSource = StaticImageData | {
+  asset?: SanityImageSource
+  alt?: string
   hotspot?: { x: number; y: number }
 }
 
@@ -28,11 +36,7 @@ interface FeatureSectionProps {
     href: string
   }
   images?: FeatureImageItem[]
-  image?: {
-    asset?: SanityImageSource
-    alt?: string
-    hotspot?: { x: number; y: number }
-  }
+  image?: ImageSource
   imagePath?: string
   imagePosition?: 'left' | 'right'
   autoPlay?: boolean
@@ -169,14 +173,16 @@ export function FeatureSection({
 }: FeatureSectionProps) {
   const singleImageUrl = imagePath
     ? imagePath
-    : image?.asset
-      ? urlFor(image.asset).width(800).height(600).quality(85).url()
-      : '/images/placeholder.jpg'
+    : image && 'src' in image
+      ? image.src // StaticImageData
+      : image?.asset
+        ? urlFor(image.asset).width(800).height(600).quality(85).url()
+        : '/images/placeholder.jpg'
 
   const carouselImages = images || [
     {
       src: singleImageUrl,
-      alt: image?.alt || title,
+      alt: (image && 'alt' in image ? image.alt : null) || image?.alt || title,
       hotspot: image?.hotspot,
     },
   ]

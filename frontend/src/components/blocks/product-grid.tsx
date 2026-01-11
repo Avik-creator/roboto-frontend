@@ -2,16 +2,20 @@
 
 import { MediaGrid } from './stories-grid'
 import { type SanityImageSource } from '@/sanity/lib/image'
+import type { StaticImageData } from 'next/image'
+
+// Union type for images that can be either StaticImageData or SanityImage
+type ImageSource = StaticImageData | {
+  asset?: SanityImageSource
+  alt?: string
+}
 
 interface Product {
   _key: string
   title: string
   subtitle?: string
   href?: string
-  image?: {
-    asset?: SanityImageSource // SanityImageSource
-    alt?: string
-  }
+  image?: ImageSource
   imagePath?: string // For local images
   aspectRatio?: 'square' | 'portrait' | 'landscape' | 'tall'
 }

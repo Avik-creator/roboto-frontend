@@ -3,6 +3,13 @@
 import Link from 'next/link'
 import { motion } from 'motion/react'
 import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
+import type { StaticImageData } from 'next/image'
+
+// Union type for images that can be either StaticImageData or SanityImage
+type ImageSource = StaticImageData | {
+  asset?: SanityImageSource
+  alt?: string
+}
 import {
   DURATIONS,
   EASINGS,
@@ -19,10 +26,7 @@ interface MediaItem {
   title: string
   subtitle?: string
   href?: string
-  image?: {
-    asset?: SanityImageSource
-    alt?: string
-  }
+  image?: ImageSource
   imagePath?: string
   aspectRatio?: 'square' | 'portrait' | 'landscape' | 'tall'
 }
@@ -111,21 +115,23 @@ export function MediaGrid({
 
             const imageUrl = item.imagePath
               ? item.imagePath
-              : item.image?.asset
-                ? urlFor(item.image.asset)
-                  .width(width)
-                  .height(variant === 'stories' ? 500 : height)
-                  .quality(85)
-                  .url()
-                : variant === 'stories'
-                  ? '/jambmostprizedpossion.jpg'
-                  : '/chair.png'
+              : item.image && 'src' in item.image
+                ? item.image.src // StaticImageData
+                : item.image?.asset
+                  ? urlFor(item.image.asset)
+                    .width(width)
+                    .height(variant === 'stories' ? 500 : height)
+                    .quality(85)
+                    .url()
+                  : variant === 'stories'
+                    ? '/jambmostprizedpossion.jpg'
+                    : '/chair.png'
 
             const imageContent = (
               <>
                 <ResponsiveImage
                   src={imageUrl}
-                  alt={item.image?.alt || item.title}
+                  alt={(item.image && 'alt' in item.image ? item.image.alt : null) || item.image?.alt || item.title}
                   fill
                   aspectRatio={aspectRatioClass}
                   className={
