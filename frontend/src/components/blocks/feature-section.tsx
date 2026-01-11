@@ -51,11 +51,11 @@ export function FeatureSection({
             className={`flex flex-col items-center text-center space-y-10 ${!isImageRight ? 'lg:order-2' : ''}`}
           >
             <div className="space-y-10 max-w-[499px] min-h-[74px] flex flex-col justify-center">
-              <h2 className="font-primary text-[34px] leading-[48px] font-[550] tracking-tight text-foreground">
+              <h2 className="text-heading">
                 {title}
               </h2>
               {description && (
-                <p className="text-[16px] leading-[25px] font-primary font-[550] text-[#1a1a1a] opacity-90 mt-6">
+                <p className="text-paragraph mt-6">
                   {description}
                 </p>
               )}
