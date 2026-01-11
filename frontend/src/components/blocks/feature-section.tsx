@@ -2,9 +2,15 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import {motion} from 'motion/react'
+import {motion, AnimatePresence} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
-import {useState, useCallback} from 'react'
+import {useState, useCallback, useEffect, useCallback as useReactCallback} from 'react'
+
+interface FeatureImageItem {
+  src: string
+  alt: string
+  hotspot?: {x: number; y: number}
+}
 
 interface FeatureSectionProps {
   _key: string
@@ -13,6 +19,7 @@ interface FeatureSectionProps {
   ctaLabel?: string
   ctaHref?: string
   refineLabel?: string
+  images?: FeatureImageItem[]
   image?: {
     asset?: SanityImageSource
     alt?: string
@@ -20,6 +27,169 @@ interface FeatureSectionProps {
   }
   imagePath?: string
   imagePosition?: 'left' | 'right'
+  autoPlay?: boolean
+  interval?: number
+}
+
+function FeatureImageCarousel({
+  images,
+  autoPlay = true,
+  interval = 5000,
+}: {
+  images: FeatureImageItem[]
+  autoPlay?: boolean
+  interval?: number
+}) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [direction, setDirection] = useState(0)
+
+  const goTo = useCallback(
+    (index: number) => {
+      const newIndex = ((index % images.length) + images.length) % images.length
+      setDirection(index > currentIndex ? 1 : -1)
+      setCurrentIndex(newIndex)
+    },
+    [currentIndex, images.length],
+  )
+
+  const next = useCallback(() => {
+    goTo(currentIndex + 1)
+  }, [currentIndex, goTo])
+
+  const prev = useCallback(() => {
+    goTo(currentIndex - 1)
+  }, [currentIndex, goTo])
+
+  useEffect(() => {
+    if (!autoPlay || images.length <= 1) return
+    const timer = setInterval(next, interval)
+    return () => clearInterval(timer)
+  }, [autoPlay, interval, next, images.length])
+
+  if (images.length === 0) return null
+
+  if (images.length === 1) {
+    const image = images[0]
+    return (
+      <motion.div
+        initial={{opacity: 0, scale: 0.98}}
+        whileInView={{opacity: 1, scale: 1}}
+        viewport={{once: true}}
+        transition={{duration: 1, ease: 'easeOut'}}
+        className="relative aspect-3/4 overflow-hidden shadow-sm"
+      >
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          priority
+          loading="eager"
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover transition-transform duration-1000 hover:scale-105"
+          style={{
+            objectPosition: image.hotspot
+              ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
+              : 'center',
+          }}
+        />
+      </motion.div>
+    )
+  }
+
+  const variants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 200 : -200,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (dir: number) => ({
+      x: dir < 0 ? 200 : -200,
+      opacity: 0,
+    }),
+  }
+
+  return (
+    <div className="relative aspect-3/4 overflow-hidden shadow-sm group">
+      <AnimatePresence initial={false} mode="popLayout" custom={direction}>
+        <motion.div
+          key={currentIndex}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{duration: 0.5, ease: 'easeInOut'}}
+          className="absolute inset-0"
+        >
+          <Image
+            src={images[currentIndex].src}
+            alt={images[currentIndex].alt}
+            fill
+            priority={currentIndex === 0}
+            loading={currentIndex === 0 ? 'eager' : 'lazy'}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-1000 group-hover:scale-105"
+            style={{
+              objectPosition: images[currentIndex].hotspot
+                ? `${images[currentIndex].hotspot.x * 100}% ${images[currentIndex].hotspot.y * 100}%`
+                : 'center',
+            }}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      <button
+        onClick={prev}
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
+        aria-label="Previous image"
+      >
+        <svg
+          className="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          aria-hidden="true"
+        >
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+
+      <button
+        onClick={next}
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
+        aria-label="Next image"
+      >
+        <svg
+          className="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          aria-hidden="true"
+        >
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goTo(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              index === currentIndex ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/75'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+            aria-current={index === currentIndex ? 'true' : undefined}
+          />
+        ))}
+      </div>
+    </div>
+  )
 }
 
 function FeatureImage({
@@ -100,15 +270,26 @@ export function FeatureSection({
   description,
   ctaHref = '#',
   refineLabel,
+  images,
   image,
   imagePath,
   imagePosition = 'right',
+  autoPlay = false,
+  interval = 5000,
 }: FeatureSectionProps) {
-  const imageUrl = imagePath
+  const singleImageUrl = imagePath
     ? imagePath
     : image?.asset
       ? urlFor(image.asset).width(800).height(600).quality(85).url()
       : '/images/placeholder.jpg'
+
+  const carouselImages = images || [
+    {
+      src: singleImageUrl,
+      alt: image?.alt || title,
+      hotspot: image?.hotspot,
+    },
+  ]
 
   const isImageRight = imagePosition === 'right'
 
@@ -150,15 +331,19 @@ export function FeatureSection({
             </div>
           </motion.div>
 
-          <FeatureImage
-            src={imageUrl}
-            alt={image?.alt || title}
-            fill
-            priority={title === 'Fireplaces'}
-            objectPosition={
-              image?.hotspot ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : 'center'
-            }
-          />
+          {carouselImages.length > 1 ? (
+            <FeatureImageCarousel images={carouselImages} autoPlay={autoPlay} interval={interval} />
+          ) : (
+            <FeatureImage
+              src={singleImageUrl}
+              alt={image?.alt || title}
+              fill
+              priority={title === 'Fireplaces'}
+              objectPosition={
+                image?.hotspot ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : 'center'
+              }
+            />
+          )}
         </div>
       </div>
     </section>

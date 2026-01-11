@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'motion/react'
+import {motion} from 'motion/react'
 
 interface CategoryNavigationProps {
   _key: string
@@ -13,40 +13,42 @@ interface CategoryNavigationProps {
 }
 
 const defaultCategories = [
-  { _key: '1', label: 'Fireplaces', href: '#fireplaces' },
-  { _key: '2', label: 'Lighting', href: '#lighting' },
-  { _key: '3', label: 'Furniture', href: '#furniture' },
-  { _key: '4', label: 'Journal', href: '#journal' },
+  {_key: '1', label: 'Fireplaces', href: '#fireplaces'},
+  {_key: '2', label: 'Lighting', href: '#lighting'},
+  {_key: '3', label: 'Furniture', href: '#furniture'},
+  {_key: '4', label: 'Journal', href: '#journal'},
 ]
 
-export function CategoryNavigation({ categories = defaultCategories }: CategoryNavigationProps) {
+export function CategoryNavigation({categories = defaultCategories}: CategoryNavigationProps) {
   return (
     <motion.nav
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      initial={{opacity: 0, y: 20}}
+      whileInView={{opacity: 1, y: 0}}
+      viewport={{once: true}}
+      transition={{duration: 0.6, ease: 'easeOut'}}
       className="container-jamb py-10 md:py-16"
     >
       <div className="flex flex-wrap items-center justify-center gap-1 md:gap-4 mt-4 md:mt-6">
         {categories.map((category, index) => (
           <motion.span
             key={category._key}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
+            initial={{opacity: 0, y: 10}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true}}
+            transition={{duration: 0.4, delay: index * 0.1}}
             className="flex items-center"
           >
             <Link
               href={category.href}
-              className="text-[11px] md:text-xs uppercase tracking-widest text-muted hover:text-foreground transition-colors relative group whitespace-nowrap"
+              className="text-[11px] md:text-xs uppercase tracking-widest text-muted hover:text-foreground transition-colors relative group whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
             >
               {category.label}
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all duration-300 group-hover:w-full" />
             </Link>
             {index < categories.length - 1 && (
-              <span className="ml-2 md:ml-4 text-muted">|</span>
+              <span className="ml-2 md:ml-4 text-muted" aria-hidden="true">
+                |
+              </span>
             )}
           </motion.span>
         ))}

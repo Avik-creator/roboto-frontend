@@ -166,17 +166,6 @@ export function MediaGrid({
     }
   }
 
-  function getRandomAspectRatio(index: number): 'square' | 'portrait' | 'landscape' | 'tall' {
-    const ratios: Array<'square' | 'portrait' | 'landscape' | 'tall'> = [
-      'portrait',
-      'tall',
-      'square',
-      'portrait',
-      'tall',
-    ]
-    return ratios[index % ratios.length]
-  }
-
   return (
     <section
       className={`bg-[${backgroundColor}] pt-8 md:pt-20 pb-20 md:pb-28`}
@@ -219,15 +208,17 @@ export function MediaGrid({
                   ? '/jambmostprizedpossion.jpg'
                   : '/chair.png'
 
-            const ItemWrapper = item.href ? Link : 'div'
-
             return (
               <motion.div
                 key={`${item._key}-${index}`}
-                initial={{opacity: 0, y: 20}}
+                initial={{opacity: 0, y: 30}}
                 whileInView={{opacity: 1, y: 0}}
-                viewport={{once: true}}
-                transition={{duration: 0.6, delay: index * 0.1}}
+                viewport={{once: true, margin: '-50px'}}
+                transition={{
+                  duration: 0.6,
+                  delay: (index % (variant === 'stories' ? 5 : 4)) * 0.1,
+                  ease: 'easeOut',
+                }}
                 role="listitem"
               >
                 {item.href ? (

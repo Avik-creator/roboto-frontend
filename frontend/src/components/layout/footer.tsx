@@ -35,7 +35,7 @@ const footerStructure = [
       },
       {
         title: 'Sell an Antique Chimneypiece',
-        links: [{label: 'Contact us', href: '/sell-antiques'}],
+        links: [],
         singleLinkOnly: true,
       },
     ],
@@ -133,7 +133,18 @@ function FooterSection({
     setIsOpen((prev) => !prev)
   }, [])
 
-  const showToggle = !singleLinkOnly && typeof window !== 'undefined' && window.innerWidth < 1024
+  const showToggle =
+    !singleLinkOnly && links.length > 0 && typeof window !== 'undefined' && window.innerWidth < 1024
+
+  const showAsPlainTitle = singleLinkOnly && links.length === 0
+
+  if (showAsPlainTitle) {
+    return (
+      <div className="flex flex-col gap-4">
+        <h5 className="footer-text leading-normal m-0 p-0 whitespace-nowrap">{title}</h5>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -161,32 +172,33 @@ function FooterSection({
         )}
       </button>
       <AnimatePresence mode="wait">
-        {(isOpen || (typeof window !== 'undefined' && window.innerWidth >= 1024)) && (
-          <motion.ul
-            key={`footer-list-${title}`}
-            id={`footer-section-${title.replace(/\s+/g, '-').toLowerCase()}`}
-            initial={{height: 0, opacity: 0}}
-            animate={{height: 'auto', opacity: 1}}
-            exit={{height: 0, opacity: 0}}
-            transition={{duration: 0.2}}
-            className="flex flex-col gap-2 list-none m-0 p-0 overflow-hidden"
-            role="list"
-            aria-label={title}
-          >
-            {links.map((link, index) => (
-              <li key={`${link.label}-${index}`} className="m-0 p-0">
-                <Link
-                  href={link.href}
-                  className="footer-text hover:text-foreground transition-colors no-underline block hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
-                  style={{color: '#9C9C9D'}}
-                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </motion.ul>
-        )}
+        {(isOpen || (typeof window !== 'undefined' && window.innerWidth >= 1024)) &&
+          links.length > 0 && (
+            <motion.ul
+              key={`footer-list-${title}`}
+              id={`footer-section-${title.replace(/\s+/g, '-').toLowerCase()}`}
+              initial={{height: 0, opacity: 0}}
+              animate={{height: 'auto', opacity: 1}}
+              exit={{height: 0, opacity: 0}}
+              transition={{duration: 0.2}}
+              className="flex flex-col gap-2 list-none m-0 p-0 overflow-hidden"
+              role="list"
+              aria-label={title}
+            >
+              {links.map((link, index) => (
+                <li key={`${link.label}-${index}`} className="m-0 p-0">
+                  <Link
+                    href={link.href}
+                    className="footer-text hover:text-foreground transition-colors no-underline block hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+                    style={{color: '#9C9C9D'}}
+                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </motion.ul>
+          )}
       </AnimatePresence>
     </div>
   )
@@ -468,7 +480,10 @@ export function Footer() {
                     singleLinkOnly={section.singleLinkOnly}
                   />
                   {secIndex < column.sections.length - 1 && (
-                    <div className="mt-2 border-b border-[#9C9C9D]/20 w-full hidden sm:block" />
+                    <div
+                      className="mt-2 border-b border-[#9C9C9D] w-full hidden sm:block"
+                      style={{borderBottomWidth: '1px', borderBottomStyle: 'solid'}}
+                    />
                   )}
                 </div>
               ))}
