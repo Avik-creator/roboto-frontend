@@ -2,8 +2,15 @@
 
 import Link from 'next/link'
 import {motion, AnimatePresence} from 'motion/react'
-import {useState, useCallback, useEffect} from 'react'
-import {DURATIONS, EASINGS} from '@/utils'
+import {useEffect} from 'react'
+import {
+  DURATIONS,
+  EASINGS,
+  useSearchForm,
+  useNewsletterForm,
+  useMenuState,
+  useModal,
+} from '@/utils'
 
 interface SearchModalProps {
   isOpen: boolean
@@ -11,7 +18,7 @@ interface SearchModalProps {
 }
 
 function SearchModal({isOpen, onClose}: SearchModalProps) {
-  const [query, setQuery] = useState('')
+  const {query, handleSubmit, handleQueryChange} = useSearchForm(onClose)
   const inputRef =
     typeof window !== 'undefined'
       ? (document.querySelector('#search-input') as HTMLInputElement)
@@ -22,23 +29,6 @@ function SearchModal({isOpen, onClose}: SearchModalProps) {
       inputRef.focus()
     }
   }, [isOpen, inputRef])
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose()
-      }
-    }
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [isOpen, onClose])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (query.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(query.trim())}`
-    }
-  }
 
   return (
     <AnimatePresence>
@@ -81,7 +71,7 @@ function SearchModal({isOpen, onClose}: SearchModalProps) {
                     id="search-input"
                     type="search"
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={handleQueryChange}
                     placeholder="Search products, categories, stories..."
                     className="w-full pl-10 pr-4 py-3 bg-transparent text-lg font-primary focus:outline-none placeholder:text-muted"
                   />
@@ -119,34 +109,27 @@ interface NewsletterModalProps {
 }
 
 function NewsletterModal({isOpen, onClose}: NewsletterModalProps) {
-  const [email, setEmail] = useState('')
-  const [agreed, setAgreed] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle')
+  const {
+    email,
+    agreed,
+    status,
+    handleSubmit: handleFormSubmit,
+    handleEmailChange,
+    handleAgreementChange,
+    resetForm,
+  } = useNewsletterForm()
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+    if (status === 'success') {
+      setTimeout(() => {
         onClose()
-      }
+        resetForm()
+      }, 2000)
     }
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [isOpen, onClose])
+  }, [status, onClose, resetForm])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email || !agreed) return
-
-    setStatus('loading')
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    setStatus('success')
-    setEmail('')
-    setAgreed(false)
-
-    setTimeout(() => {
-      onClose()
-      setStatus('idle')
-    }, 2000)
+    await handleFormSubmit(e)
   }
 
   return (
@@ -229,7 +212,7 @@ function NewsletterModal({isOpen, onClose}: NewsletterModalProps) {
                       id="newsletter-email-modal"
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmailChange}
                       placeholder="Email address"
                       className="w-full px-4 py-3 border border-[#9C9C9D]/30 bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
                       required
@@ -238,7 +221,7 @@ function NewsletterModal({isOpen, onClose}: NewsletterModalProps) {
                   <div className="flex items-start gap-3">
                     <button
                       type="button"
-                      onClick={() => setAgreed(!agreed)}
+                      onClick={handleAgreementChange}
                       className={`w-5 h-5 rounded border border-[#9C9C9D] flex items-center justify-center transition-colors flex-shrink-0 mt-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm ${
                         agreed ? 'bg-foreground' : ''
                       }`}
@@ -276,7 +259,7 @@ function NewsletterModal({isOpen, onClose}: NewsletterModalProps) {
                       type="checkbox"
                       id="newsletter-privacy-modal"
                       checked={agreed}
-                      onChange={() => setAgreed(!agreed)}
+                      onChange={handleAgreementChange}
                       className="sr-only"
                       tabIndex={-1}
                     />
@@ -299,33 +282,9 @@ function NewsletterModal({isOpen, onClose}: NewsletterModalProps) {
 }
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [isNewsletterOpen, setIsNewsletterOpen] = useState(false)
-
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen((prev) => !prev)
-  }, [])
-
-  const closeMenu = useCallback(() => {
-    setIsMenuOpen(false)
-  }, [])
-
-  const openSearch = useCallback(() => {
-    setIsSearchOpen(true)
-  }, [])
-
-  const closeSearch = useCallback(() => {
-    setIsSearchOpen(false)
-  }, [])
-
-  const openNewsletter = useCallback(() => {
-    setIsNewsletterOpen(true)
-  }, [])
-
-  const closeNewsletter = useCallback(() => {
-    setIsNewsletterOpen(false)
-  }, [])
+  const {isMenuOpen, toggleMenu, closeMenu} = useMenuState()
+  const {isOpen: isSearchOpen, open: openSearch, close: closeSearch} = useModal()
+  const {isOpen: isNewsletterOpen, open: openNewsletter, close: closeNewsletter} = useModal()
 
   return (
     <>

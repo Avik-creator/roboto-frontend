@@ -4,8 +4,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {motion} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
-import {useState, useCallback} from 'react'
-import {DURATIONS, EASINGS, getStaggerDelay} from '@/utils'
+import {
+  DURATIONS,
+  EASINGS,
+  getStaggerDelay,
+  useImageLoad,
+  getGridColsClass,
+  getAspectRatioClass,
+  getImageDimensions,
+  getAriaLabel,
+} from '@/utils'
 
 interface MediaItem {
   _key: string
@@ -54,16 +62,7 @@ function ImageWithError({
   objectPosition?: string
   aspectRatio?: string
 }) {
-  const [hasError, setHasError] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  const handleError = useCallback(() => {
-    setHasError(true)
-  }, [])
-
-  const handleLoad = useCallback(() => {
-    setIsLoaded(true)
-  }, [])
+  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
 
   if (hasError) {
     return (
@@ -137,35 +136,7 @@ export function MediaGrid({
           imagePath: variant === 'stories' ? '/jambmostprizedpossion.jpg' : '/chair.png',
         })
 
-  const gridColsClass = {
-    2: 'grid-cols-2',
-    3: 'grid-cols-2 sm:grid-cols-3',
-    4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
-    5: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5',
-    6: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6',
-  }
-
-  const aspectRatioClasses = {
-    square: 'aspect-square',
-    portrait: 'aspect-[4/5]',
-    landscape: 'aspect-[5/4]',
-    tall: 'aspect-[3/5]',
-  }
-
-  const getImageDimensions = (aspectRatio: string) => {
-    switch (aspectRatio) {
-      case 'square':
-        return {width: 400, height: 400}
-      case 'portrait':
-        return {width: 400, height: 500}
-      case 'landscape':
-        return {width: 400, height: 320}
-      case 'tall':
-        return {width: 400, height: 667}
-      default:
-        return {width: 400, height: 400}
-    }
-  }
+  const gridColsClass = getGridColsClass(columns)
 
   return (
     <section
@@ -187,14 +158,14 @@ export function MediaGrid({
         )}
 
         <div
-          className={`grid ${gridColsClass[columns]} gap-x-8 md:gap-x-12 gap-y-16 mt-8`}
+          className={`grid ${gridColsClass} gap-x-8 md:gap-x-12 gap-y-16 mt-8`}
           role="list"
           aria-label={variant === 'stories' ? 'Stories' : 'Products'}
         >
           {displayItems.map((item, index) => {
             const aspectRatio: 'square' | 'portrait' | 'landscape' | 'tall' =
               item.aspectRatio || (variant === 'products' ? 'portrait' : 'portrait')
-            const aspectRatioClass = aspectRatioClasses[aspectRatio]
+            const aspectRatioClass = getAspectRatioClass(aspectRatio)
             const {width, height} = getImageDimensions(aspectRatio)
 
             const imageUrl = item.imagePath
@@ -226,7 +197,7 @@ export function MediaGrid({
                   <Link
                     href={item.href}
                     className="group block"
-                    aria-label={`${item.title}${item.subtitle ? ` - ${item.subtitle}` : ''}`}
+                    aria-label={getAriaLabel(item.title, item.subtitle)}
                   >
                     <ImageWithError
                       src={imageUrl}

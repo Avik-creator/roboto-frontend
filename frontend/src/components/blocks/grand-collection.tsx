@@ -3,8 +3,7 @@
 import Image from 'next/image'
 import {motion} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
-import {useState, useCallback} from 'react'
-import {DURATIONS, EASINGS} from '@/utils'
+import {DURATIONS, EASINGS, useImageLoad, getObjectPosition} from '@/utils'
 
 interface GrandCollectionProps {
   _key: string
@@ -34,16 +33,7 @@ function CollectionImage({
   fill?: boolean
   objectPosition?: string
 }) {
-  const [hasError, setHasError] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  const handleError = useCallback(() => {
-    setHasError(true)
-  }, [])
-
-  const handleLoad = useCallback(() => {
-    setIsLoaded(true)
-  }, [])
+  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
 
   if (hasError) {
     return (
@@ -148,9 +138,7 @@ export function GrandCollection({
             src={imageUrl}
             alt={image?.alt || title}
             fill
-            objectPosition={
-              image?.hotspot ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : 'center'
-            }
+            objectPosition={getObjectPosition(image?.hotspot)}
           />
         </div>
       </div>

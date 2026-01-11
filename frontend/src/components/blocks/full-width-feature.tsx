@@ -3,8 +3,14 @@
 import Image from 'next/image'
 import {motion} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
-import {useState, useCallback} from 'react'
-import {getImageRevealAnimation, getTextRevealAnimation, getButtonAnimation} from '@/utils'
+import {
+  getImageRevealAnimation,
+  getTextRevealAnimation,
+  getButtonAnimation,
+  useImageLoad,
+  getSectionId,
+  getObjectPosition,
+} from '@/utils'
 
 interface FullWidthFeatureProps {
   _key: string
@@ -33,16 +39,7 @@ function FullWidthFeatureImage({
   fill?: boolean
   objectPosition?: string
 }) {
-  const [hasError, setHasError] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  const handleError = useCallback(() => {
-    setHasError(true)
-  }, [])
-
-  const handleLoad = useCallback(() => {
-    setIsLoaded(true)
-  }, [])
+  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
 
   if (hasError) {
     return (
@@ -102,12 +99,14 @@ export function FullWidthFeature({
       ? urlFor(backgroundImage.asset).width(1200).height(1600).quality(90).url()
       : '/furniture.png'
 
+  const sectionId = getSectionId(title)
+
   return (
     <section
-      id={title.toLowerCase().replace(/\s+/g, '-')}
+      id={sectionId}
       className="bg-[#f5f3f0] py-20 md:py-32 overflow-hidden"
       role="region"
-      aria-labelledby={`full-width-title-${title.toLowerCase().replace(/\s+/g, '-')}`}
+      aria-labelledby={`full-width-title-${sectionId}`}
     >
       <div className="container-jamb">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
@@ -118,10 +117,7 @@ export function FullWidthFeature({
             } ${contentPosition === 'center' ? 'lg:col-span-2' : ''}`}
           >
             <div className="max-w-[499px] flex flex-col items-center text-center">
-              <h2
-                id={`full-width-title-${title.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-heading"
-              >
+              <h2 id={`full-width-title-${sectionId}`} className="text-heading">
                 {title}
               </h2>
               {description && <p className="text-paragraph mt-6 text-black/90">{description}</p>}
@@ -143,11 +139,7 @@ export function FullWidthFeature({
               src={imageUrl}
               alt={backgroundImage?.alt || title}
               fill
-              objectPosition={
-                backgroundImage?.hotspot
-                  ? `${backgroundImage.hotspot.x * 100}% ${backgroundImage.hotspot.y * 100}%`
-                  : 'center'
-              }
+              objectPosition={getObjectPosition(backgroundImage?.hotspot)}
             />
           )}
         </div>

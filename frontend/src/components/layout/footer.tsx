@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import {motion, AnimatePresence} from 'motion/react'
 import {useState, useCallback, useMemo} from 'react'
+import {useNewsletterForm} from '@/utils'
 
 const FOOTER_CONTACT = {
   phone: '+44 (0) 207 730 2122',
@@ -205,68 +206,15 @@ function FooterSection({
 }
 
 export function Footer() {
-  const [email, setEmail] = useState('')
-  const [agreed, setAgreed] = useState(false)
-  const [formState, setFormState] = useState<FormState>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
-
-  const validateEmail = useCallback((email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }, [])
-
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault()
-      setErrorMessage('')
-
-      if (!email.trim()) {
-        setErrorMessage('Please enter your email address')
-        setFormState('error')
-        return
-      }
-
-      if (!validateEmail(email)) {
-        setErrorMessage('Please enter a valid email address')
-        setFormState('error')
-        return
-      }
-
-      if (!agreed) {
-        setErrorMessage('Please agree to our Privacy Policy')
-        setFormState('error')
-        return
-      }
-
-      setFormState('loading')
-
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      setFormState('success')
-      setEmail('')
-      setAgreed(false)
-    },
-    [email, agreed, validateEmail],
-  )
-
-  const handleEmailChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(e.target.value)
-      if (formState === 'error') {
-        setFormState('idle')
-        setErrorMessage('')
-      }
-    },
-    [formState],
-  )
-
-  const handleAgreementChange = useCallback(() => {
-    setAgreed((prev) => !prev)
-    if (formState === 'error') {
-      setFormState('idle')
-      setErrorMessage('')
-    }
-  }, [formState])
+  const {
+    email,
+    agreed,
+    status: formState,
+    errorMessage,
+    handleSubmit,
+    handleEmailChange,
+    handleAgreementChange,
+  } = useNewsletterForm()
 
   const contactInfo = useMemo(() => FOOTER_CONTACT, [])
 

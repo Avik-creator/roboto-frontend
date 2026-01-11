@@ -2,8 +2,13 @@
 
 import Image from 'next/image'
 import {motion} from 'motion/react'
-import {useState, useCallback} from 'react'
-import {DURATIONS, EASINGS, getTextRevealAnimation, getButtonAnimation} from '@/utils'
+import {
+  DURATIONS,
+  EASINGS,
+  getTextRevealAnimation,
+  getButtonAnimation,
+  useImageLoad,
+} from '@/utils'
 
 interface NewsletterSectionProps {
   _key: string
@@ -12,16 +17,7 @@ interface NewsletterSectionProps {
 }
 
 function NewsletterImage({src, alt}: {src: string; alt: string}) {
-  const [hasError, setHasError] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  const handleError = useCallback(() => {
-    setHasError(true)
-  }, [])
-
-  const handleLoad = useCallback(() => {
-    setIsLoaded(true)
-  }, [])
+  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
 
   if (hasError) {
     return (

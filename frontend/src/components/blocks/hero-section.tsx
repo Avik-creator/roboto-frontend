@@ -36,12 +36,12 @@ export function HeroSection({image, imagePath}: HeroSectionProps) {
     ? {opacity: isLoaded ? 1 : 0}
     : {
         opacity: isLoaded ? 1 : 0,
-        scale: isLoaded ? 1 : 1.08,
+        scale: isLoaded ? 1 : 1.12,
       }
 
   const transition = prefersReducedMotion
     ? {duration: 0.3}
-    : {duration: 1.8, ease: [0.22, 1, 0.36, 1] as const}
+    : heroAnimation.transition
 
   return (
     <section

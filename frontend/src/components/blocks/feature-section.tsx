@@ -4,8 +4,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {motion, AnimatePresence} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
-import {useState, useCallback, useEffect} from 'react'
-import {getImageRevealAnimation, getTextRevealAnimation} from '@/utils'
+import {
+  getImageRevealAnimation,
+  getTextRevealAnimation,
+  useCarousel,
+  getCarouselVariants,
+  useImageLoad,
+  getSectionId,
+} from '@/utils'
 
 interface FeatureImageItem {
   src: string
@@ -45,31 +51,11 @@ function FeatureImageCarousel({
   autoPlay?: boolean
   interval?: number
 }) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [direction, setDirection] = useState(0)
-
-  const goTo = useCallback(
-    (index: number) => {
-      const newIndex = ((index % images.length) + images.length) % images.length
-      setDirection(index > currentIndex ? 1 : -1)
-      setCurrentIndex(newIndex)
-    },
-    [currentIndex, images.length],
+  const {currentIndex, direction, goTo, next, prev} = useCarousel(
+    images.length,
+    autoPlay,
+    interval,
   )
-
-  const next = useCallback(() => {
-    goTo(currentIndex + 1)
-  }, [currentIndex, goTo])
-
-  const prev = useCallback(() => {
-    goTo(currentIndex - 1)
-  }, [currentIndex, goTo])
-
-  useEffect(() => {
-    if (!autoPlay || images.length <= 1) return
-    const timer = setInterval(next, interval)
-    return () => clearInterval(timer)
-  }, [autoPlay, interval, next, images.length])
 
   if (images.length === 0) return null
 
@@ -98,20 +84,7 @@ function FeatureImageCarousel({
     )
   }
 
-  const variants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 200 : -200,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (dir: number) => ({
-      x: dir < 0 ? 200 : -200,
-      opacity: 0,
-    }),
-  }
+  const variants = getCarouselVariants()
 
   return (
     <div className="relative aspect-3/4 overflow-hidden shadow-sm group">
@@ -209,16 +182,7 @@ function FeatureImage({
   objectPosition?: string
   aspectRatio?: string
 }) {
-  const [hasError, setHasError] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  const handleError = useCallback(() => {
-    setHasError(true)
-  }, [])
-
-  const handleLoad = useCallback(() => {
-    setIsLoaded(true)
-  }, [])
+  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
 
   if (hasError) {
     return (
@@ -292,12 +256,13 @@ export function FeatureSection({
   ]
 
   const isImageRight = imagePosition === 'right'
+  const sectionId = getSectionId(title)
 
   return (
     <section
-      id={title.toLowerCase().replace(/\s+/g, '-')}
+      id={sectionId}
       className="py-20 md:py-32"
-      aria-labelledby={`feature-title-${title.toLowerCase().replace(/\s+/g, '-')}`}
+      aria-labelledby={`feature-title-${sectionId}`}
     >
       <div className="container-jamb">
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center`}>
@@ -306,10 +271,7 @@ export function FeatureSection({
             className={`flex flex-col items-center text-center space-y-10 ${!isImageRight ? 'lg:order-2' : ''}`}
           >
             <div className="space-y-10 max-w-[499px] min-h-[74px] flex flex-col justify-center">
-              <h2
-                id={`feature-title-${title.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-heading"
-              >
+              <h2 id={`feature-title-${sectionId}`} className="text-heading">
                 {title}
               </h2>
               {description && <p className="text-paragraph mt-6">{description}</p>}
