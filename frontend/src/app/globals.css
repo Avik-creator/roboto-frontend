@@ -147,7 +147,6 @@ h6 {
   text-align: center;
   vertical-align: middle;
   border: 1px solid #737373;
-  padding: 0.75rem 1.5rem;
   background-color: transparent;
   color: #737373;
   transition: all 0.3s ease;
@@ -252,18 +251,17 @@ h6 {
   0% {
     background-position: -200px 0;
   }
+
   100% {
     background-position: calc(200px + 100%) 0;
   }
 }
 
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--background) 0px,
-    var(--cream) 40px,
-    var(--background) 80px
-  );
+  background: linear-gradient(90deg,
+      var(--background) 0px,
+      var(--cream) 40px,
+      var(--background) 80px);
   background-size: 200px 100%;
   animation: skeleton 1.5s ease-in-out infinite;
 }
@@ -286,6 +284,7 @@ img[data-loading='true'] {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

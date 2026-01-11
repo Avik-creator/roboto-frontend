@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import {motion, AnimatePresence} from 'motion/react'
-import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
+import { motion, AnimatePresence } from 'motion/react'
+import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
 import {
   getImageRevealAnimation,
   getTextRevealAnimation,
@@ -16,7 +16,7 @@ import {
 interface FeatureImageItem {
   src: string
   alt: string
-  hotspot?: {x: number; y: number}
+  hotspot?: { x: number; y: number }
 }
 
 interface FeatureSectionProps {
@@ -34,7 +34,7 @@ interface FeatureSectionProps {
   image?: {
     asset?: SanityImageSource
     alt?: string
-    hotspot?: {x: number; y: number}
+    hotspot?: { x: number; y: number }
   }
   imagePath?: string
   imagePosition?: 'left' | 'right'
@@ -51,7 +51,7 @@ function FeatureImageCarousel({
   autoPlay?: boolean
   interval?: number
 }) {
-  const {currentIndex, direction, goTo, next, prev} = useCarousel(
+  const { currentIndex, direction, goTo, next, prev } = useCarousel(
     images.length,
     autoPlay,
     interval,
@@ -96,7 +96,7 @@ function FeatureImageCarousel({
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const}}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="absolute inset-0"
         >
           <Image
@@ -155,9 +155,8 @@ function FeatureImageCarousel({
           <button
             key={index}
             onClick={() => goTo(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-              index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
-            }`}
+            className={`w-2 h-2 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
+              }`}
             aria-label={`Go to slide ${index + 1}`}
             aria-current={index === currentIndex ? 'true' : undefined}
           />
@@ -182,7 +181,7 @@ function FeatureImage({
   objectPosition?: string
   aspectRatio?: string
 }) {
-  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
+  const { hasError, isLoaded, handleError, handleLoad } = useImageLoad()
 
   if (hasError) {
     return (
@@ -222,7 +221,7 @@ function FeatureImage({
         onLoad={handleLoad}
         onError={handleError}
         className={`object-cover transition-all duration-1200 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        style={fill ? {objectPosition} : undefined}
+        style={fill ? { objectPosition } : undefined}
       />
     </motion.div>
   )
@@ -270,32 +269,42 @@ export function FeatureSection({
             {...getTextRevealAnimation(0)}
             className={`flex flex-col items-center text-center space-y-10 ${!isImageRight ? 'lg:order-2' : ''}`}
           >
-            <div className="space-y-10 max-w-[499px] min-h-[74px] flex flex-col justify-center">
+            <div className="space-y-10 max-w-full min-h-[74px] flex flex-col justify-center">
               <h2 id={`feature-title-${sectionId}`} className="text-heading">
                 {title}
               </h2>
               {description && <p className="text-paragraph mt-6">{description}</p>}
             </div>
-            <div className="flex flex-col gap-4 pt-4">
+            <div className="flex flex-col gap-6 pt-6 items-center">
               {refineLabel && (
                 <Link
                   href={ctaHref}
-                  className="btn-outline min-w-[200px] text-sm px-6 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
-                  aria-label={`${refineLabel}`}
+                  className="
+        btn-outline
+        text-sm
+        px-4 py-2
+        tracking-wide
+      "
                 >
                   {refineLabel}
                 </Link>
               )}
+
               {secondaryButton && (
                 <Link
                   href={secondaryButton.href}
-                  className="btn-outline min-w-[200px] text-base px-8 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
-                  aria-label={`${secondaryButton.label}`}
+                  className="
+        btn-outline
+        px-4 py-2
+        tracking-wide
+      "
                 >
                   {secondaryButton.label}
                 </Link>
               )}
             </div>
+
+
           </motion.div>
 
           {carouselImages.length > 1 ? (
