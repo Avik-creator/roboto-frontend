@@ -137,20 +137,20 @@ export function Footer() {
           </div>
 
           {/* Column 3: Newsletter Form */}
-          <div className="w-full max-w-[380px]">
+          <div className="w-full max-w-[380px] md:max-w-[320px] lg:max-w-[380px]">
             <p className="text-[15px] font-primary mb-4 text-[#9C9C9D] leading-tight text-left">Newsletter</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex border border-[#9C9C9D]/30 bg-white overflow-hidden">
                 <input
-                  type="text"
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Search"
-                  className="flex-1 px-4 py-2.5 text-[15px] font-primary focus:outline-none"
+                  placeholder="Email address"
+                  className="flex-1 px-3 sm:px-4 py-2.5 text-[15px] font-primary focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="px-6 py-2.5 text-[15px] font-primary border-l border-[#9C9C9D]/30 hover:bg-gray-50 transition-colors text-[#9C9C9D]"
+                  className="px-4 sm:px-6 py-2.5 text-[14px] sm:text-[15px] font-primary border-l border-[#9C9C9D]/30 hover:bg-gray-50 transition-colors text-[#9C9C9D] whitespace-nowrap"
                 >
                   Subscribe
                 </button>
@@ -177,7 +177,7 @@ export function Footer() {
             <div key={colIndex} className="flex flex-col gap-12">
               {column.sections.map((section, secIndex) => (
                 <div key={secIndex} className="flex flex-col gap-4">
-                  <h5 className="text-[15px] font-primary font-medium text-foreground text-left leading-normal m-0 p-0">
+                  <h5 className="footer-text text-left leading-normal m-0 p-0 whitespace-nowrap">
                     {section.title}
                   </h5>
                   {section.links.length > 0 && (
@@ -186,7 +186,7 @@ export function Footer() {
                         <li key={link.label} className="m-0 p-0">
                           <Link
                             href={link.href}
-                            className="text-[15px] font-primary hover:text-foreground transition-colors no-underline block hover:underline"
+                            className="footer-text hover:text-foreground transition-colors no-underline block hover:underline"
                             style={{ color: '#9C9C9D' }}
                           >
                             {link.label}
