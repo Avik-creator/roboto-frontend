@@ -19,6 +19,10 @@ interface FeatureSectionProps {
   ctaLabel?: string
   ctaHref?: string
   refineLabel?: string
+  secondaryButton?: {
+    label: string
+    href: string
+  }
   images?: FeatureImageItem[]
   image?: {
     asset?: SanityImageSource
@@ -270,6 +274,7 @@ export function FeatureSection({
   description,
   ctaHref = '#',
   refineLabel,
+  secondaryButton,
   images,
   image,
   imagePath,
@@ -317,15 +322,23 @@ export function FeatureSection({
               </h2>
               {description && <p className="text-paragraph mt-6">{description}</p>}
             </div>
-            <div className="flex pt-4">
+            <div className="flex flex-col gap-4 pt-4">
               {refineLabel && (
                 <Link
                   href={ctaHref}
-                  className="btn-outline min-w-[240px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
-                  style={{border: '1px solid #737373'}}
-                  aria-label={`${refineLabel} - opens in new tab`}
+                  className="btn-outline min-w-[200px] text-sm px-6 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
+                  aria-label={`${refineLabel}`}
                 >
                   {refineLabel}
+                </Link>
+              )}
+              {secondaryButton && (
+                <Link
+                  href={secondaryButton.href}
+                  className="btn-outline min-w-[200px] text-base px-8 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
+                  aria-label={`${secondaryButton.label}`}
+                >
+                  {secondaryButton.label}
                 </Link>
               )}
             </div>

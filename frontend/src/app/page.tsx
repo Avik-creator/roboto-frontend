@@ -28,10 +28,14 @@ const demoPageContent = [
     title: 'Fireplaces',
     description:
       'Lorem ipsum dolor sit amet, eu labore vulputate at labore in dolore consequatur adipiscing erat, aute do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et sunt labore et dolore magna aliqua vel ipsum.',
-    refineLabel: 'Refine by: Chimneypiece',
+    refineLabel: 'Explore our Fireplaces',
     ctaHref: '/fireplaces',
     imagePath: '/fireplaceimage.png',
     imagePosition: 'right' as const,
+    secondaryButton: {
+      label: 'Sell an Antique Chimneypiece',
+      href: '/sell-antiques',
+    },
   },
   {
     _key: 'feature-lighting',

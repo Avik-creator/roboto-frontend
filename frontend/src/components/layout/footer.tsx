@@ -406,29 +406,40 @@ export function Footer() {
                 <button
                   type="button"
                   onClick={handleAgreementChange}
-                  className={`w-3.5 h-3.5 rounded-full border border-[#9C9C9D] flex items-center justify-center transition-colors flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm ${
-                    agreed ? 'bg-foreground' : ''
-                  }`}
+                  className="w-5 h-5 rounded-full border border-[#9C9C9D] flex items-center justify-center transition-all duration-700 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+                  style={{
+                    backgroundColor: agreed ? '#9C9C9D' : 'transparent',
+                    borderColor: agreed ? '#9C9C9D' : undefined,
+                  }}
                   aria-pressed={agreed}
                   aria-label="I agree to our Privacy Policy"
                   data-testid="newsletter-privacy-checkbox"
                 >
-                  {agreed && (
-                    <motion.svg
-                      initial={{scale: 0}}
-                      animate={{scale: 1}}
-                      className="w-1.5 h-1.5 bg-white rounded-full"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </motion.svg>
-                  )}
+                  <AnimatePresence mode="wait">
+                    {agreed && (
+                      <motion.svg
+                        initial={{scale: 0, opacity: 0}}
+                        animate={{scale: 1, opacity: 1}}
+                        exit={{scale: 0, opacity: 0}}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 200,
+                          damping: 20,
+                          duration: 0.6,
+                        }}
+                        className="w-2.5 h-2.5 text-white"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </motion.svg>
+                    )}
+                  </AnimatePresence>
                 </button>
                 <label
                   htmlFor="privacy-policy"
@@ -491,7 +502,7 @@ export function Footer() {
           ))}
         </nav>
 
-        <div className="mt-16 pt-8 border-t border-[#9C9C9D]/20 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+        <div className="mt-16 pt-8 border-t border-[#9C9C9D] flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
           <p className="text-[12px] font-primary text-[#9C9C9D]">
             © {new Date().getFullYear()} Jamb. All rights reserved.
           </p>
