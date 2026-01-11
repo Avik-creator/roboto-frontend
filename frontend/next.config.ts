@@ -1,6 +1,10 @@
-import type { NextConfig } from "next";
+import type {NextConfig} from 'next'
+import path from 'path'
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.dirname(process.cwd()),
+  },
   images: {
     remotePatterns: [
       {
@@ -22,6 +26,6 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig
