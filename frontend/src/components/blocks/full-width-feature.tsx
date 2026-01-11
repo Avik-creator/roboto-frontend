@@ -69,11 +69,11 @@ export function FullWidthFeature({
           {contentPosition !== 'center' && (
             <ResponsiveImage
               src={imageUrl}
-              alt={(backgroundImage && 'alt' in backgroundImage ? backgroundImage.alt : null) || backgroundImage?.alt || title}
+              alt={(backgroundImage && 'alt' in backgroundImage && typeof backgroundImage.alt === 'string' ? backgroundImage.alt : undefined) || (backgroundImage && !('src' in backgroundImage) && backgroundImage.alt) || title}
               fill
               aspectRatio="aspect-3/4"
               className="shadow-sm transition-transform duration-1200 hover:scale-105"
-              objectPosition={getObjectPosition(backgroundImage?.hotspot)}
+              objectPosition={getObjectPosition(backgroundImage && 'hotspot' in backgroundImage ? backgroundImage.hotspot : undefined)}
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           )}

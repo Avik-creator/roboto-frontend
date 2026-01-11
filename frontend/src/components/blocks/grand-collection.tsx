@@ -55,11 +55,11 @@ export function GrandCollection({
 
           <ResponsiveImage
             src={imageUrl}
-            alt={(image && 'alt' in image ? image.alt : null) || image?.alt || title}
+            alt={(image && 'alt' in image && typeof image.alt === 'string' ? image.alt : undefined) || (image && !('src' in image) && image.alt) || title}
             fill
             aspectRatio="aspect-[4/3]"
             className="transition-transform duration-1200 hover:scale-105"
-            objectPosition={getObjectPosition(image?.hotspot)}
+            objectPosition={getObjectPosition(image && 'hotspot' in image ? image.hotspot : undefined)}
             sizes="(max-width: 1024px) 100vw, 50vw"
             animate
             animationConfig={{
