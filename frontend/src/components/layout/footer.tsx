@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'motion/react'
 import { useState, useCallback, useMemo } from 'react'
-import { useNewsletterForm } from '@/utils'
+import { useNewsletterForm, scrollToTop } from '@/utils'
 
 const FOOTER_CONTACT = {
   phone: '+44 (0) 207 730 2122',
@@ -190,7 +190,7 @@ function FooterSection({
                 <li key={`${link.label}-${index}`} className="m-0 p-0">
                   <Link
                     href={link.href}
-                    scroll
+                    onClick={() => scrollToTop('smooth')}
                     className="footer-text hover:text-foreground transition-colors no-underline block hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
                     style={{ color: '#9C9C9D' }}
                     rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -398,7 +398,7 @@ export function Footer() {
                   <span className="sr-only">Privacy Policy agreement. </span>I agree to our{' '}
                   <Link
                     href="/privacy"
-                    scroll
+                    onClick={() => scrollToTop('instant')}
                     className="hover:text-foreground underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
                   >
                     Privacy Policy
@@ -459,18 +459,21 @@ export function Footer() {
           <div className="flex gap-6">
             <Link
               href="/terms"
+              onClick={() => scrollToTop('instant')}
               className="text-[12px] font-primary text-[#9C9C9D] hover:text-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
             >
               Terms
             </Link>
             <Link
               href="/privacy"
+              onClick={() => scrollToTop('instant')}
               className="text-[12px] font-primary text-[#9C9C9D] hover:text-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
             >
               Privacy
             </Link>
             <Link
               href="/cookies"
+              onClick={() => scrollToTop('instant')}
               className="text-[12px] font-primary text-[#9C9C9D] hover:text-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
             >
               Cookies

@@ -397,9 +397,8 @@ export function smoothScrollTo(targetId: string, offset: number = 80) {
     const progress = Math.min(timeElapsed / duration, 1)
 
     // Custom easing curve for luxury feel
-    const easeProgress = progress < 0.5
-      ? 4 * progress * progress * progress
-      : 1 - Math.pow(-2 * progress + 2, 3) / 2
+    const easeProgress =
+      progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2
 
     window.scrollTo(0, startPosition + distance * easeProgress)
 
@@ -415,16 +414,19 @@ export function smoothScrollTo(targetId: string, offset: number = 80) {
 export function useMagneticEffect(strength: number = 0.3) {
   const [position, setPosition] = useState({x: 0, y: 0})
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    
-    const deltaX = (e.clientX - centerX) * strength
-    const deltaY = (e.clientY - centerY) * strength
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
 
-    setPosition({x: deltaX, y: deltaY})
-  }, [strength])
+      const deltaX = (e.clientX - centerX) * strength
+      const deltaY = (e.clientY - centerY) * strength
+
+      setPosition({x: deltaX, y: deltaY})
+    },
+    [strength],
+  )
 
   const handleMouseLeave = useCallback(() => {
     setPosition({x: 0, y: 0})
@@ -519,7 +521,7 @@ export function getSectionOrchestration() {
 export function getGalleryReveal(index: number, total: number) {
   const baseDelay = 0.08
   const delay = index * baseDelay
-  
+
   return {
     initial: {opacity: 0, scale: 0.92, y: 60},
     whileInView: {opacity: 1, scale: 1, y: 0},
@@ -530,4 +532,8 @@ export function getGalleryReveal(index: number, total: number) {
       ease: EASINGS.goldLeaf,
     },
   }
+}
+
+export function scrollToTop(behavior: ScrollBehavior = 'smooth') {
+  window.scrollTo({top: 0, behavior})
 }
