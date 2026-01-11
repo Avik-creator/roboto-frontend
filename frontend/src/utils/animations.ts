@@ -107,22 +107,6 @@ export function useParallaxEffect(intensity: number = 30): {
   return {y, springY}
 }
 
-export function useImageLoad() {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [hasError, setHasError] = useState(false)
-
-  const handleLoad = useCallback(() => {
-    setIsLoaded(true)
-  }, [])
-
-  const handleError = useCallback(() => {
-    setHasError(true)
-    setIsLoaded(true)
-  }, [])
-
-  return {isLoaded, hasError, handleLoad, handleError}
-}
-
 export function getStaggerDelay(index: number, baseDelay: number = DELAYS.moderate): number {
   return index * baseDelay
 }
