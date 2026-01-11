@@ -4,6 +4,7 @@ import Image from 'next/image'
 import {motion} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
 import {useState, useCallback} from 'react'
+import {DURATIONS, EASINGS} from '@/utils'
 
 interface GrandCollectionProps {
   _key: string
@@ -69,10 +70,10 @@ function CollectionImage({
 
   return (
     <motion.div
-      initial={{opacity: 0, x: 30}}
+      initial={{opacity: 0, x: 40}}
       whileInView={{opacity: 1, x: 0}}
       viewport={{once: true}}
-      transition={{duration: 0.6, delay: 0.2}}
+      transition={{duration: DURATIONS.slow, delay: 0.2, ease: EASINGS.elegant}}
       className="relative aspect-[4/3] overflow-hidden"
     >
       <Image
@@ -83,7 +84,7 @@ function CollectionImage({
         sizes="(max-width: 1024px) 100vw, 50vw"
         onLoad={handleLoad}
         onError={handleError}
-        className={`object-cover transition-transform duration-700 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`object-cover transition-transform duration-1200 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         style={fill ? {objectPosition} : undefined}
       />
     </motion.div>
@@ -111,10 +112,10 @@ export function GrandCollection({
       <div className="container-jamb">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
           <motion.div
-            initial={{opacity: 0, x: -30}}
+            initial={{opacity: 0, x: -40}}
             whileInView={{opacity: 1, x: 0}}
             viewport={{once: true}}
-            transition={{duration: 0.6}}
+            transition={{duration: DURATIONS.slow, ease: EASINGS.elegant}}
             className="space-y-12"
           >
             {eyebrow && (

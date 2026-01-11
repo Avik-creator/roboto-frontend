@@ -4,7 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {motion, AnimatePresence} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
-import {useState, useCallback, useEffect, useCallback as useReactCallback} from 'react'
+import {useState, useCallback, useEffect} from 'react'
+import {getImageRevealAnimation, getTextRevealAnimation} from '@/utils'
 
 interface FeatureImageItem {
   src: string
@@ -76,10 +77,7 @@ function FeatureImageCarousel({
     const image = images[0]
     return (
       <motion.div
-        initial={{opacity: 0, scale: 0.98}}
-        whileInView={{opacity: 1, scale: 1}}
-        viewport={{once: true}}
-        transition={{duration: 1, ease: 'easeOut'}}
+        {...getImageRevealAnimation()}
         className="relative aspect-3/4 overflow-hidden shadow-sm"
       >
         <Image
@@ -89,7 +87,7 @@ function FeatureImageCarousel({
           priority
           loading="eager"
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover transition-transform duration-1000 hover:scale-105"
+          className="object-cover transition-transform duration-1200 hover:scale-105"
           style={{
             objectPosition: image.hotspot
               ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
@@ -125,7 +123,7 @@ function FeatureImageCarousel({
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{duration: 0.5, ease: 'easeInOut'}}
+          transition={{duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const}}
           className="absolute inset-0"
         >
           <Image
@@ -135,7 +133,7 @@ function FeatureImageCarousel({
             priority={currentIndex === 0}
             loading={currentIndex === 0 ? 'eager' : 'lazy'}
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover transition-transform duration-1000 group-hover:scale-105"
+            className="object-cover transition-transform duration-1200 group-hover:scale-105"
             style={{
               objectPosition: images[currentIndex].hotspot
                 ? `${images[currentIndex].hotspot.x * 100}% ${images[currentIndex].hotspot.y * 100}%`
@@ -147,7 +145,7 @@ function FeatureImageCarousel({
 
       <button
         onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
         aria-label="Previous image"
       >
         <svg
@@ -164,7 +162,7 @@ function FeatureImageCarousel({
 
       <button
         onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
         aria-label="Next image"
       >
         <svg
@@ -184,8 +182,8 @@ function FeatureImageCarousel({
           <button
             key={index}
             onClick={() => goTo(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-              index === currentIndex ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/75'
+            className={`w-2 h-2 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
             }`}
             aria-label={`Go to slide ${index + 1}`}
             aria-current={index === currentIndex ? 'true' : undefined}
@@ -247,10 +245,7 @@ function FeatureImage({
 
   return (
     <motion.div
-      initial={{opacity: 0, scale: 0.98}}
-      whileInView={{opacity: 1, scale: 1}}
-      viewport={{once: true}}
-      transition={{duration: 1, ease: 'easeOut'}}
+      {...getImageRevealAnimation()}
       className={`relative ${aspectRatio} overflow-hidden shadow-sm`}
     >
       <Image
@@ -262,7 +257,7 @@ function FeatureImage({
         sizes="(max-width: 1024px) 100vw, 50vw"
         onLoad={handleLoad}
         onError={handleError}
-        className={`object-cover transition-all duration-1000 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`object-cover transition-all duration-1200 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         style={fill ? {objectPosition} : undefined}
       />
     </motion.div>
@@ -307,10 +302,7 @@ export function FeatureSection({
       <div className="container-jamb">
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center`}>
           <motion.div
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
-            transition={{duration: 0.8, ease: 'easeOut'}}
+            {...getTextRevealAnimation(0)}
             className={`flex flex-col items-center text-center space-y-10 ${!isImageRight ? 'lg:order-2' : ''}`}
           >
             <div className="space-y-10 max-w-[499px] min-h-[74px] flex flex-col justify-center">

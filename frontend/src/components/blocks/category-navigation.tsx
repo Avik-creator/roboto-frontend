@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import {motion} from 'motion/react'
+import {DURATIONS, EASINGS, getNavigationAnimation} from '@/utils'
 
 interface CategoryNavigationProps {
   _key: string
@@ -25,25 +26,22 @@ export function CategoryNavigation({categories = defaultCategories}: CategoryNav
       initial={{opacity: 0, y: 20}}
       whileInView={{opacity: 1, y: 0}}
       viewport={{once: true}}
-      transition={{duration: 0.6, ease: 'easeOut'}}
+      transition={{duration: DURATIONS.medium, ease: EASINGS.elegant}}
       className="container-jamb py-10 md:py-16"
     >
       <div className="flex flex-wrap items-center justify-center gap-1 md:gap-4 mt-4 md:mt-6">
         {categories.map((category, index) => (
           <motion.span
             key={category._key}
-            initial={{opacity: 0, y: 10}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
-            transition={{duration: 0.4, delay: index * 0.1}}
+            {...getNavigationAnimation(index)}
             className="flex items-center"
           >
             <Link
               href={category.href}
-              className="text-[11px] md:text-xs uppercase tracking-widest text-muted hover:text-foreground transition-colors relative group whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+              className="text-[11px] md:text-xs uppercase tracking-widest text-muted hover:text-foreground transition-colors duration-500 relative group whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
             >
               {category.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all duration-300 group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all duration-700 ease-[0.22,1,0.36,1] group-hover:w-full" />
             </Link>
             {index < categories.length - 1 && (
               <span className="ml-2 md:ml-4 text-muted" aria-hidden="true">

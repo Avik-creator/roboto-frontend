@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import {motion} from 'motion/react'
 import {useState, useCallback} from 'react'
+import {DURATIONS, EASINGS, getTextRevealAnimation, getButtonAnimation} from '@/utils'
 
 interface NewsletterSectionProps {
   _key: string
@@ -50,7 +51,7 @@ function NewsletterImage({src, alt}: {src: string; alt: string}) {
       initial={{opacity: 0, scale: 0.95}}
       whileInView={{opacity: 1, scale: 1}}
       viewport={{once: true}}
-      transition={{duration: 0.8, delay: 0.2}}
+      transition={{duration: DURATIONS.slow, delay: 0.2, ease: EASINGS.elegant}}
       className="relative flex justify-center lg:justify-end"
     >
       <div className="relative w-full max-w-[500px] aspect-[4/5] bg-white shadow-sm p-4 md:p-8">
@@ -63,7 +64,7 @@ function NewsletterImage({src, alt}: {src: string; alt: string}) {
             sizes="(max-width: 1024px) 100vw, 50vw"
             onLoad={handleLoad}
             onError={handleError}
-            className={`object-contain transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`object-contain transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         </div>
       </div>
@@ -84,10 +85,7 @@ export function NewsletterSection({
       <div className="container-jamb">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <motion.div
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
-            transition={{duration: 0.8, ease: 'easeOut'}}
+            {...getTextRevealAnimation(0)}
             className="flex flex-col items-center text-center space-y-8"
           >
             <h2 id="newsletter-title" className="text-heading">
@@ -97,8 +95,7 @@ export function NewsletterSection({
 
             <div className="flex justify-center mt-6">
               <motion.button
-                whileHover={{scale: 1.02}}
-                whileTap={{scale: 0.98}}
+                {...getButtonAnimation()}
                 className="btn-outline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
                 aria-label="Discover more - opens in new tab"
               >

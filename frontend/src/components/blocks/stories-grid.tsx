@@ -5,6 +5,7 @@ import Link from 'next/link'
 import {motion} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
 import {useState, useCallback} from 'react'
+import {DURATIONS, EASINGS, getStaggerDelay} from '@/utils'
 
 interface MediaItem {
   _key: string
@@ -28,7 +29,7 @@ interface MediaGridProps {
   variant?: 'stories' | 'products'
 }
 
-interface Story extends MediaItem {}
+type Story = MediaItem
 interface StoriesGridProps extends Omit<
   MediaGridProps,
   'items' | 'backgroundColor' | 'columns' | 'variant'
@@ -98,7 +99,7 @@ function ImageWithError({
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
         onLoad={handleLoad}
         onError={handleError}
-        className={`object-cover transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className || ''}`}
+        className={`object-cover transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className || ''}`}
         style={fill ? {objectPosition} : undefined}
       />
     </div>
@@ -178,7 +179,7 @@ export function MediaGrid({
             initial={{opacity: 0, y: 20}}
             whileInView={{opacity: 1, y: 0}}
             viewport={{once: true}}
-            transition={{duration: 0.6}}
+            transition={{duration: DURATIONS.medium, ease: EASINGS.elegant}}
             className="font-primary text-[24px] md:text-[28px] text-center mb-20 md:mb-24 tracking-tight text-[#1a1a1a]"
           >
             {sectionTitle}
@@ -211,13 +212,13 @@ export function MediaGrid({
             return (
               <motion.div
                 key={`${item._key}-${index}`}
-                initial={{opacity: 0, y: 30}}
+                initial={{opacity: 0, y: 35}}
                 whileInView={{opacity: 1, y: 0}}
                 viewport={{once: true, margin: '-50px'}}
                 transition={{
-                  duration: 0.6,
-                  delay: (index % (variant === 'stories' ? 5 : 4)) * 0.1,
-                  ease: 'easeOut',
+                  duration: DURATIONS.medium,
+                  delay: getStaggerDelay(index, 0.1),
+                  ease: EASINGS.refined,
                 }}
                 role="listitem"
               >
@@ -231,11 +232,11 @@ export function MediaGrid({
                       src={imageUrl}
                       alt={item.image?.alt || item.title}
                       fill
-                      className="transition-transform duration-700 group-hover:scale-105"
+                      className="transition-transform duration-1000 group-hover:scale-105"
                       aspectRatio={aspectRatioClass}
                     />
                     <div className="text-center space-y-1 mt-5">
-                      <h4 className="font-primary text-[15px] font-medium text-black group-hover:text-foreground transition-colors">
+                      <h4 className="font-primary text-[15px] font-medium text-black group-hover:text-foreground transition-colors duration-300">
                         {item.title}
                       </h4>
                       {item.subtitle && (
@@ -249,7 +250,7 @@ export function MediaGrid({
                       src={imageUrl}
                       alt={item.image?.alt || item.title}
                       fill
-                      className="transition-transform duration-700"
+                      className="transition-transform duration-1000"
                       aspectRatio={aspectRatioClass}
                     />
                     <div className="text-center space-y-1 mt-5">

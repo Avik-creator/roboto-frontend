@@ -1,10 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import {motion} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
 import {useState, useCallback} from 'react'
+import {getImageRevealAnimation, getTextRevealAnimation, getButtonAnimation} from '@/utils'
 
 interface FullWidthFeatureProps {
   _key: string
@@ -69,10 +69,7 @@ function FullWidthFeatureImage({
 
   return (
     <motion.div
-      initial={{opacity: 0, scale: 0.98}}
-      whileInView={{opacity: 1, scale: 1}}
-      viewport={{once: true}}
-      transition={{duration: 1, ease: 'easeOut'}}
+      {...getImageRevealAnimation()}
       className="relative aspect-3/4 overflow-hidden shadow-sm"
     >
       <Image
@@ -83,7 +80,7 @@ function FullWidthFeatureImage({
         sizes="(max-width: 1024px) 100vw, 50vw"
         onLoad={handleLoad}
         onError={handleError}
-        className={`object-cover transition-transform duration-1000 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`object-cover transition-transform duration-1200 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         style={fill ? {objectPosition} : undefined}
       />
     </motion.div>
@@ -115,10 +112,7 @@ export function FullWidthFeature({
       <div className="container-jamb">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           <motion.div
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
-            transition={{duration: 0.8, ease: 'easeOut'}}
+            {...getTextRevealAnimation(0)}
             className={`flex flex-col items-center text-center space-y-8 ${
               contentPosition === 'right' ? 'lg:order-2' : ''
             } ${contentPosition === 'center' ? 'lg:col-span-2' : ''}`}
@@ -135,8 +129,7 @@ export function FullWidthFeature({
 
             {ctaLabel && (
               <motion.button
-                whileHover={{scale: 1.02}}
-                whileTap={{scale: 0.98}}
+                {...getButtonAnimation()}
                 className="btn-outline px-10 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
                 aria-label={`${ctaLabel} - opens in new tab`}
               >

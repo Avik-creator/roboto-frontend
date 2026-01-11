@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import {motion, AnimatePresence} from 'motion/react'
 import {useState, useCallback, useEffect} from 'react'
+import {DURATIONS, EASINGS} from '@/utils'
 
 interface SearchModalProps {
   isOpen: boolean
@@ -329,9 +330,9 @@ export function Header() {
   return (
     <>
       <motion.header
-        initial={{opacity: 0, y: -20}}
+        initial={{opacity: 0, y: -25}}
         animate={{opacity: 1, y: 0}}
-        transition={{duration: 0.6, ease: 'easeOut'}}
+        transition={{duration: DURATIONS.medium, ease: EASINGS.elegant}}
         className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/40"
         role="banner"
       >
@@ -429,7 +430,7 @@ export function Header() {
             initial={{opacity: 0, height: 0}}
             animate={{opacity: 1, height: 'auto'}}
             exit={{opacity: 0, height: 0}}
-            transition={{duration: 0.3, ease: 'easeInOut'}}
+            transition={{duration: DURATIONS.medium, ease: EASINGS.elegant}}
             className="lg:hidden border-t border-border/40 bg-background"
           >
             <nav className="container-jamb py-8 space-y-4" aria-label="Mobile menu">
