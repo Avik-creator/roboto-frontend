@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import {motion, AnimatePresence} from 'motion/react'
-import {useState, useCallback, useMemo} from 'react'
-import {useNewsletterForm} from '@/utils'
+import { motion, AnimatePresence } from 'motion/react'
+import { useState, useCallback, useMemo } from 'react'
+import { useNewsletterForm } from '@/utils'
 
 const FOOTER_CONTACT = {
   phone: '+44 (0) 207 730 2122',
@@ -20,18 +20,18 @@ const footerStructure = [
       {
         title: 'Reproduction Chimneypieces',
         links: [
-          {label: 'Marble', href: '/fireplaces/marble'},
-          {label: 'Stone', href: '/fireplaces/stone'},
-          {label: 'Grates & Accessories', href: '/fireplaces/accessories'},
-          {label: 'Guide to Jamb Marbles', href: '/fireplaces/marbles-guide'},
+          { label: 'Marble', href: '/fireplaces/marble' },
+          { label: 'Stone', href: '/fireplaces/stone' },
+          { label: 'Grates & Accessories', href: '/fireplaces/accessories' },
+          { label: 'Guide to Jamb Marbles', href: '/fireplaces/marbles-guide' },
         ],
       },
       {
         title: 'Antique Chimneypieces',
         links: [
-          {label: 'French & Italian', href: '/fireplaces/antique/french-italian'},
-          {label: 'Georgian', href: '/fireplaces/antique/georgian'},
-          {label: 'Regency', href: '/fireplaces/antique/regency'},
+          { label: 'French & Italian', href: '/fireplaces/antique/french-italian' },
+          { label: 'Georgian', href: '/fireplaces/antique/georgian' },
+          { label: 'Regency', href: '/fireplaces/antique/regency' },
         ],
       },
       {
@@ -46,12 +46,12 @@ const footerStructure = [
       {
         title: 'Reproduction Lighting',
         links: [
-          {label: 'Hanging Globes', href: '/lighting/globes'},
-          {label: 'Hanging Lanterns', href: '/lighting/lanterns'},
-          {label: 'Wall Lights', href: '/lighting/wall'},
-          {label: 'Dish Lights', href: '/lighting/dish'},
-          {label: 'Table Lamps', href: '/lighting/table'},
-          {label: 'Chains & Brackets', href: '/lighting/accessories'},
+          { label: 'Hanging Globes', href: '/lighting/globes' },
+          { label: 'Hanging Lanterns', href: '/lighting/lanterns' },
+          { label: 'Wall Lights', href: '/lighting/wall' },
+          { label: 'Dish Lights', href: '/lighting/dish' },
+          { label: 'Table Lamps', href: '/lighting/table' },
+          { label: 'Chains & Brackets', href: '/lighting/accessories' },
         ],
       },
     ],
@@ -61,25 +61,25 @@ const footerStructure = [
       {
         title: 'Reproduction Furniture',
         links: [
-          {label: 'Seating', href: '/furniture/seating'},
-          {label: 'Tables', href: '/furniture/tables'},
-          {label: 'Mirrors', href: '/furniture/mirrors'},
-          {label: 'The Pantry Collection', href: '/furniture/pantry'},
+          { label: 'Seating', href: '/furniture/seating' },
+          { label: 'Tables', href: '/furniture/tables' },
+          { label: 'Mirrors', href: '/furniture/mirrors' },
+          { label: 'The Pantry Collection', href: '/furniture/pantry' },
         ],
       },
       {
         title: 'Antique Furniture',
         links: [
-          {label: 'Seating', href: '/furniture/antique/seating'},
-          {label: 'Tables', href: '/furniture/antique/tables'},
-          {label: 'Desks', href: '/furniture/antique/desks'},
-          {label: 'Bookcases & Cabinets', href: '/furniture/antique/bookcases'},
-          {label: 'Chests', href: '/furniture/antique/chests'},
-          {label: 'Mirrors', href: '/furniture/antique/mirrors'},
-          {label: 'Fire Accessories', href: '/furniture/antique/accessories'},
-          {label: 'Objects', href: '/furniture/antique/objects'},
-          {label: 'Works of Arts', href: '/furniture/antique/art'},
-          {label: 'Lighting', href: '/furniture/antique/lighting'},
+          { label: 'Seating', href: '/furniture/antique/seating' },
+          { label: 'Tables', href: '/furniture/antique/tables' },
+          { label: 'Desks', href: '/furniture/antique/desks' },
+          { label: 'Bookcases & Cabinets', href: '/furniture/antique/bookcases' },
+          { label: 'Chests', href: '/furniture/antique/chests' },
+          { label: 'Mirrors', href: '/furniture/antique/mirrors' },
+          { label: 'Fire Accessories', href: '/furniture/antique/accessories' },
+          { label: 'Objects', href: '/furniture/antique/objects' },
+          { label: 'Works of Arts', href: '/furniture/antique/art' },
+          { label: 'Lighting', href: '/furniture/antique/lighting' },
         ],
       },
     ],
@@ -89,11 +89,11 @@ const footerStructure = [
       {
         title: 'Journal',
         links: [
-          {label: 'Latest Stories', href: '/journal'},
-          {label: 'Design Guides', href: '/journal/design-guides'},
-          {label: 'Our Craft', href: '/journal/craft'},
-          {label: 'News', href: '/journal/news'},
-          {label: 'Events', href: '/journal/events'},
+          { label: 'Latest Stories', href: '/journal' },
+          { label: 'Design Guides', href: '/journal/design-guides' },
+          { label: 'Our Craft', href: '/journal/craft' },
+          { label: 'News', href: '/journal/news' },
+          { label: 'Events', href: '/journal/events' },
         ],
       },
     ],
@@ -103,14 +103,14 @@ const footerStructure = [
       {
         title: 'About',
         links: [
-          {label: 'Founders', href: '/about/founders'},
-          {label: 'Team', href: '/about/team'},
-          {label: 'History', href: '/about/history'},
-          {label: 'Galleries', href: '/galleries'},
-          {label: 'Workshops', href: '/about/workshops'},
-          {label: 'Showrooms', href: '/showrooms'},
-          {label: 'Terms & Conditions', href: '/terms'},
-          {label: 'Privacy Policy', href: '/privacy'},
+          { label: 'Founders', href: '/about/founders' },
+          { label: 'Team', href: '/about/team' },
+          { label: 'History', href: '/about/history' },
+          { label: 'Galleries', href: '/galleries' },
+          { label: 'Workshops', href: '/about/workshops' },
+          { label: 'Showrooms', href: '/showrooms' },
+          { label: 'Terms & Conditions', href: '/terms' },
+          { label: 'Privacy Policy', href: '/privacy' },
         ],
       },
     ],
@@ -125,7 +125,7 @@ function FooterSection({
   singleLinkOnly = false,
 }: {
   title: string
-  links: {label: string; href: string}[]
+  links: { label: string; href: string }[]
   singleLinkOnly?: boolean
 }) {
   const [isOpen, setIsOpen] = useState(true)
@@ -159,8 +159,8 @@ function FooterSection({
         <h5 className="footer-text leading-normal m-0 p-0">{title}</h5>
         {showToggle && (
           <motion.svg
-            animate={{rotate: isOpen ? 180 : 0}}
-            transition={{duration: 0.2}}
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
             className="w-4 h-4 flex-shrink-0 text-muted"
             viewBox="0 0 24 24"
             fill="none"
@@ -178,10 +178,10 @@ function FooterSection({
             <motion.ul
               key={`footer-list-${title}`}
               id={`footer-section-${title.replace(/\s+/g, '-').toLowerCase()}`}
-              initial={{height: 0, opacity: 0}}
-              animate={{height: 'auto', opacity: 1}}
-              exit={{height: 0, opacity: 0}}
-              transition={{duration: 0.2}}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="flex flex-col gap-2 list-none m-0 p-0 overflow-hidden"
               role="list"
               aria-label={title}
@@ -191,7 +191,7 @@ function FooterSection({
                   <Link
                     href={link.href}
                     className="footer-text hover:text-foreground transition-colors no-underline block hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
-                    style={{color: '#9C9C9D'}}
+                    style={{ color: '#9C9C9D' }}
                     rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   >
                     {link.label}
@@ -220,7 +220,7 @@ export function Footer() {
 
   return (
     <footer
-      style={{backgroundColor: '#E3E3E3'}}
+      style={{ backgroundColor: '#E3E3E3' }}
       className="py-12 md:py-16 lg:py-24"
       role="contentinfo"
       data-testid="footer"
@@ -233,15 +233,15 @@ export function Footer() {
           >
             <p
               className="text-[13px] md:text-[15px] font-primary"
-              style={{color: '#9C9C9D'}}
+              style={{ color: '#9C9C9D' }}
               aria-label={`Telephone: ${contactInfo.phone}`}
             >
               Tel: {contactInfo.phone}
             </p>
-            <p className="text-[13px] md:text-[15px] font-primary" style={{color: '#9C9C9D'}}>
+            <p className="text-[13px] md:text-[15px] font-primary" style={{ color: '#9C9C9D' }}>
               {contactInfo.address.line1}
             </p>
-            <p className="text-[13px] md:text-[15px] font-primary" style={{color: '#9C9C9D'}}>
+            <p className="text-[13px] md:text-[15px] font-primary" style={{ color: '#9C9C9D' }}>
               {contactInfo.address.line2}
             </p>
           </address>
@@ -249,7 +249,7 @@ export function Footer() {
           <a
             href={`mailto:${contactInfo.email}`}
             className="text-[13px] md:text-[15px] font-primary hover:text-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
-            style={{color: '#9C9C9D'}}
+            style={{ color: '#9C9C9D' }}
             aria-label={`Email: ${contactInfo.email}`}
           >
             {contactInfo.email}
@@ -282,9 +282,9 @@ export function Footer() {
                   type="submit"
                   disabled={formState === 'loading' || formState === 'success'}
                   whileHover={
-                    formState !== 'loading' && formState !== 'success' ? {scale: 1.02} : {}
+                    formState !== 'loading' && formState !== 'success' ? { scale: 1.02 } : {}
                   }
-                  whileTap={formState !== 'loading' && formState !== 'success' ? {scale: 0.98} : {}}
+                  whileTap={formState !== 'loading' && formState !== 'success' ? { scale: 0.98 } : {}}
                   className="px-4 sm:px-6 py-2.5 text-[13px] sm:text-[14px] md:text-[15px] font-primary border-l border-[#9C9C9D]/30 hover:bg-gray-50 transition-colors text-[#9C9C9D] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
                   data-testid="newsletter-submit"
                 >
@@ -338,9 +338,9 @@ export function Footer() {
                 {errorMessage && (
                   <motion.p
                     key="error-message"
-                    initial={{opacity: 0, y: -10}}
-                    animate={{opacity: 1, y: 0}}
-                    exit={{opacity: 0, y: -10}}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
                     className="text-[12px] font-primary text-red-600"
                     role="alert"
                     data-testid="newsletter-error"
@@ -354,7 +354,7 @@ export function Footer() {
                 <button
                   type="button"
                   onClick={handleAgreementChange}
-                  className="w-5 h-5 rounded-full border border-[#9C9C9D] flex items-center justify-center transition-all duration-700 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+                  className="w-4 h-4 rounded-full border border-[#9C9C9D] flex items-center justify-center transition-all duration-700 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   style={{
                     backgroundColor: agreed ? '#9C9C9D' : 'transparent',
                     borderColor: agreed ? '#9C9C9D' : undefined,
@@ -366,9 +366,9 @@ export function Footer() {
                   <AnimatePresence mode="wait">
                     {agreed && (
                       <motion.svg
-                        initial={{scale: 0, opacity: 0}}
-                        animate={{scale: 1, opacity: 1}}
-                        exit={{scale: 0, opacity: 0}}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
                         transition={{
                           type: 'spring',
                           stiffness: 200,
@@ -392,7 +392,7 @@ export function Footer() {
                 <label
                   htmlFor="privacy-policy"
                   className="text-[12px] md:text-[13px] font-primary cursor-pointer select-none"
-                  style={{color: '#9C9C9D'}}
+                  style={{ color: '#9C9C9D' }}
                 >
                   <span className="sr-only">Privacy Policy agreement. </span>I agree to our{' '}
                   <Link
@@ -441,7 +441,7 @@ export function Footer() {
                   {secIndex < column.sections.length - 1 && (
                     <div
                       className="mt-2 border-b border-[#9C9C9D] w-full hidden sm:block"
-                      style={{borderBottomWidth: '1px', borderBottomStyle: 'solid'}}
+                      style={{ borderBottomWidth: '1px', borderBottomStyle: 'solid' }}
                     />
                   )}
                 </div>

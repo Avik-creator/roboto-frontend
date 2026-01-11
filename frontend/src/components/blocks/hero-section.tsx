@@ -5,6 +5,7 @@ import {motion, AnimatePresence} from 'motion/react'
 import type {SanityImageSource} from '@/sanity/lib/image'
 import {urlFor} from '@/sanity/lib/image'
 import {useImageLoad, usePrefersReducedMotion, getHeroAnimation} from '@/utils'
+import {ImagePlaceholder} from '@/components/ui'
 
 interface HeroSectionProps {
   _key: string
@@ -39,9 +40,7 @@ export function HeroSection({image, imagePath}: HeroSectionProps) {
         scale: isLoaded ? 1 : 1.12,
       }
 
-  const transition = prefersReducedMotion
-    ? {duration: 0.3}
-    : heroAnimation.transition
+  const transition = prefersReducedMotion ? {duration: 0.3} : heroAnimation.transition
 
   return (
     <section
@@ -89,26 +88,12 @@ export function HeroSection({image, imagePath}: HeroSectionProps) {
           />
         </motion.div>
       ) : (
-        <div
-          className="absolute inset-0 bg-[#f5f3f0] flex items-center justify-center"
-          role="img"
-          aria-label="Hero image unavailable"
-        >
-          <div className="text-center space-y-2">
-            <svg
-              className="w-12 h-12 mx-auto text-muted/50"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-              aria-hidden="true"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <path d="m21 21-3.5-3.5" />
-            </svg>
-            <p className="text-sm font-primary text-muted">Image unavailable</p>
-          </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <ImagePlaceholder
+            alt={image?.alt || 'Jamb hero image'}
+            aspectRatio="h-full w-full"
+            className="shadow-sm"
+          />
         </div>
       )}
     </section>

@@ -1,22 +1,20 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { motion, AnimatePresence } from 'motion/react'
-import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
+import {motion, AnimatePresence} from 'motion/react'
+import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
 import {
   getImageRevealAnimation,
   getTextRevealAnimation,
   useCarousel,
   getCarouselVariants,
-  useImageLoad,
   getSectionId,
 } from '@/utils'
+import {ResponsiveImage, ImagePlaceholder, Section, Container, ContentBlock} from '@/components/ui'
 
 interface FeatureImageItem {
   src: string
   alt: string
-  hotspot?: { x: number; y: number }
+  hotspot?: {x: number; y: number}
 }
 
 interface FeatureSectionProps {
@@ -34,7 +32,7 @@ interface FeatureSectionProps {
   image?: {
     asset?: SanityImageSource
     alt?: string
-    hotspot?: { x: number; y: number }
+    hotspot?: {x: number; y: number}
   }
   imagePath?: string
   imagePosition?: 'left' | 'right'
@@ -51,36 +49,27 @@ function FeatureImageCarousel({
   autoPlay?: boolean
   interval?: number
 }) {
-  const { currentIndex, direction, goTo, next, prev } = useCarousel(
-    images.length,
-    autoPlay,
-    interval,
-  )
+  const {currentIndex, direction, goTo, next, prev} = useCarousel(images.length, autoPlay, interval)
 
   if (images.length === 0) return null
 
   if (images.length === 1) {
     const image = images[0]
     return (
-      <motion.div
-        {...getImageRevealAnimation()}
-        className="relative aspect-3/4 overflow-hidden shadow-sm"
-      >
-        <Image
-          src={image.src}
-          alt={image.alt}
-          fill
-          priority
-          loading="eager"
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover transition-transform duration-1200 hover:scale-105"
-          style={{
-            objectPosition: image.hotspot
-              ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
-              : 'center',
-          }}
-        />
-      </motion.div>
+      <ResponsiveImage
+        src={image.src}
+        alt={image.alt}
+        fill
+        priority
+        aspectRatio="aspect-3/4"
+        className="transition-transform duration-1200 hover:scale-105 shadow-sm"
+        objectPosition={
+          image.hotspot ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : 'center'
+        }
+        sizes="(max-width: 1024px) 100vw, 50vw"
+        animate
+        animationConfig={getImageRevealAnimation()}
+      />
     )
   }
 
@@ -96,22 +85,22 @@ function FeatureImageCarousel({
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          transition={{duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const}}
           className="absolute inset-0"
         >
-          <Image
+          <ResponsiveImage
             src={images[currentIndex].src}
             alt={images[currentIndex].alt}
             fill
             priority={currentIndex === 0}
-            loading={currentIndex === 0 ? 'eager' : 'lazy'}
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover transition-transform duration-1200 group-hover:scale-105"
-            style={{
-              objectPosition: images[currentIndex].hotspot
+            aspectRatio="h-full w-full"
+            className="transition-transform duration-1200 group-hover:scale-105"
+            objectPosition={
+              images[currentIndex].hotspot
                 ? `${images[currentIndex].hotspot.x * 100}% ${images[currentIndex].hotspot.y * 100}%`
-                : 'center',
-            }}
+                : 'center'
+            }
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </motion.div>
       </AnimatePresence>
@@ -155,75 +144,15 @@ function FeatureImageCarousel({
           <button
             key={index}
             onClick={() => goTo(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
-              }`}
+            className={`w-2 h-2 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
+            }`}
             aria-label={`Go to slide ${index + 1}`}
             aria-current={index === currentIndex ? 'true' : undefined}
           />
         ))}
       </div>
     </div>
-  )
-}
-
-function FeatureImage({
-  src,
-  alt,
-  fill,
-  priority,
-  objectPosition,
-  aspectRatio = 'aspect-3/4',
-}: {
-  src: string
-  alt: string
-  fill?: boolean
-  priority?: boolean
-  objectPosition?: string
-  aspectRatio?: string
-}) {
-  const { hasError, isLoaded, handleError, handleLoad } = useImageLoad()
-
-  if (hasError) {
-    return (
-      <div
-        className={`relative ${aspectRatio} overflow-hidden bg-[#f5f3f0] shadow-sm flex items-center justify-center`}
-        role="img"
-        aria-label={`${alt} - image unavailable`}
-      >
-        <svg
-          className="w-16 h-16 text-muted/40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          aria-hidden="true"
-        >
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <circle cx="8.5" cy="8.5" r="1.5" />
-          <path d="m21 21-3.5-3.5" />
-        </svg>
-      </div>
-    )
-  }
-
-  return (
-    <motion.div
-      {...getImageRevealAnimation()}
-      className={`relative ${aspectRatio} overflow-hidden shadow-sm`}
-    >
-      <Image
-        src={src}
-        alt={alt}
-        fill={fill}
-        priority={priority}
-        loading={priority ? 'eager' : 'lazy'}
-        sizes="(max-width: 1024px) 100vw, 50vw"
-        onLoad={handleLoad}
-        onError={handleError}
-        className={`object-cover transition-all duration-1200 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        style={fill ? { objectPosition } : undefined}
-      />
-    </motion.div>
   )
 }
 
@@ -258,70 +187,38 @@ export function FeatureSection({
   const sectionId = getSectionId(title)
 
   return (
-    <section
-      id={sectionId}
-      className="py-20 md:py-32"
-      aria-labelledby={`feature-title-${sectionId}`}
-    >
-      <div className="container-jamb">
+    <Section id={sectionId} aria-labelledby={`feature-title-${sectionId}`}>
+      <Container>
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center`}>
-          <motion.div
-            {...getTextRevealAnimation(0)}
-            className={`flex flex-col items-center text-center space-y-10 ${!isImageRight ? 'lg:order-2' : ''}`}
-          >
-            <div className="space-y-10 max-w-full min-h-[74px] flex flex-col justify-center">
-              <h2 id={`feature-title-${sectionId}`} className="text-heading">
-                {title}
-              </h2>
-              {description && <p className="text-paragraph mt-6">{description}</p>}
-            </div>
-            <div className="flex flex-col gap-6 pt-6 items-center">
-              {refineLabel && (
-                <Link
-                  href={ctaHref}
-                  className="
-        btn-outline
-        text-sm
-        px-4 py-2
-        tracking-wide
-      "
-                >
-                  {refineLabel}
-                </Link>
-              )}
-
-              {secondaryButton && (
-                <Link
-                  href={secondaryButton.href}
-                  className="
-        btn-outline
-        px-4 py-2
-        tracking-wide
-      "
-                >
-                  {secondaryButton.label}
-                </Link>
-              )}
-            </div>
-
-
-          </motion.div>
+          <div className={!isImageRight ? 'lg:order-2' : ''}>
+            <ContentBlock
+              title={title}
+              titleId={`feature-title-${sectionId}`}
+              description={description}
+              primaryButton={refineLabel ? {label: refineLabel, href: ctaHref} : undefined}
+              secondaryButton={secondaryButton}
+              alignment="center"
+            />
+          </div>
 
           {carouselImages.length > 1 ? (
             <FeatureImageCarousel images={carouselImages} autoPlay={autoPlay} interval={interval} />
           ) : (
-            <FeatureImage
+            <ResponsiveImage
               src={singleImageUrl}
               alt={image?.alt || title}
               fill
               priority={title === 'Fireplaces'}
+              aspectRatio="aspect-3/4"
+              className="shadow-sm transition-transform duration-1200 hover:scale-105"
               objectPosition={
                 image?.hotspot ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : 'center'
               }
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
           )}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

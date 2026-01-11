@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import {motion} from 'motion/react'
 import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
@@ -8,12 +7,12 @@ import {
   DURATIONS,
   EASINGS,
   getStaggerDelay,
-  useImageLoad,
   getGridColsClass,
   getAspectRatioClass,
   getImageDimensions,
   getAriaLabel,
 } from '@/utils'
+import {ResponsiveImage, Section, Container} from '@/components/ui'
 
 interface MediaItem {
   _key: string
@@ -43,66 +42,6 @@ interface StoriesGridProps extends Omit<
   'items' | 'backgroundColor' | 'columns' | 'variant'
 > {
   stories: Story[]
-}
-
-function ImageWithError({
-  src,
-  alt,
-  fill,
-  className,
-  priority = false,
-  objectPosition,
-  aspectRatio,
-}: {
-  src: string
-  alt: string
-  fill?: boolean
-  className?: string
-  priority?: boolean
-  objectPosition?: string
-  aspectRatio?: string
-}) {
-  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
-
-  if (hasError) {
-    return (
-      <div
-        className={`${aspectRatio || 'aspect-square'} bg-[#f5f3f0] flex items-center justify-center`}
-        role="img"
-        aria-label={`${alt} - image unavailable`}
-      >
-        <svg
-          className="w-8 h-8 text-muted/40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          aria-hidden="true"
-        >
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <circle cx="8.5" cy="8.5" r="1.5" />
-          <path d="m21 21-3.5-3.5" />
-        </svg>
-      </div>
-    )
-  }
-
-  return (
-    <div className={`${aspectRatio || 'aspect-square'} relative overflow-hidden bg-[#f5f3f0]`}>
-      <Image
-        src={src}
-        alt={alt}
-        fill={fill}
-        priority={priority}
-        loading={priority ? 'eager' : 'lazy'}
-        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-        onLoad={handleLoad}
-        onError={handleError}
-        className={`object-cover transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className || ''}`}
-        style={fill ? {objectPosition} : undefined}
-      />
-    </div>
-  )
 }
 
 export function StoriesGrid({
@@ -139,12 +78,13 @@ export function MediaGrid({
   const gridColsClass = getGridColsClass(columns)
 
   return (
-    <section
-      className={`bg-[${backgroundColor}] pt-8 md:pt-20 pb-20 md:pb-28`}
-      role="region"
+    <Section
+      backgroundColor={backgroundColor}
+      padding="none"
+      className="pt-8 md:pt-20 pb-20 md:pb-28"
       aria-label={sectionTitle || 'Media grid'}
     >
-      <div className="container-jamb px-4 max-w-[1400px] mx-auto">
+      <Container maxWidth="default">
         {sectionTitle && (
           <motion.h3
             initial={{opacity: 0, y: 20}}
@@ -180,6 +120,33 @@ export function MediaGrid({
                   ? '/jambmostprizedpossion.jpg'
                   : '/chair.png'
 
+            const imageContent = (
+              <>
+                <ResponsiveImage
+                  src={imageUrl}
+                  alt={item.image?.alt || item.title}
+                  fill
+                  aspectRatio={aspectRatioClass}
+                  className={
+                    item.href
+                      ? 'transition-transform duration-1000 group-hover:scale-105'
+                      : 'transition-transform duration-1000'
+                  }
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                />
+                <div className="text-center space-y-1 mt-5">
+                  <h4
+                    className={`font-primary text-[15px] font-medium text-black ${item.href ? 'group-hover:text-foreground transition-colors duration-300' : ''}`}
+                  >
+                    {item.title}
+                  </h4>
+                  {item.subtitle && (
+                    <p className="font-primary text-[13px] text-[#9C9C9D]">{item.subtitle}</p>
+                  )}
+                </div>
+              </>
+            )
+
             return (
               <motion.div
                 key={`${item._key}-${index}`}
@@ -199,46 +166,16 @@ export function MediaGrid({
                     className="group block"
                     aria-label={getAriaLabel(item.title, item.subtitle)}
                   >
-                    <ImageWithError
-                      src={imageUrl}
-                      alt={item.image?.alt || item.title}
-                      fill
-                      className="transition-transform duration-1000 group-hover:scale-105"
-                      aspectRatio={aspectRatioClass}
-                    />
-                    <div className="text-center space-y-1 mt-5">
-                      <h4 className="font-primary text-[15px] font-medium text-black group-hover:text-foreground transition-colors duration-300">
-                        {item.title}
-                      </h4>
-                      {item.subtitle && (
-                        <p className="font-primary text-[13px] text-[#9C9C9D]">{item.subtitle}</p>
-                      )}
-                    </div>
+                    {imageContent}
                   </Link>
                 ) : (
-                  <div className="group block">
-                    <ImageWithError
-                      src={imageUrl}
-                      alt={item.image?.alt || item.title}
-                      fill
-                      className="transition-transform duration-1000"
-                      aspectRatio={aspectRatioClass}
-                    />
-                    <div className="text-center space-y-1 mt-5">
-                      <h4 className="font-primary text-[15px] font-medium text-black">
-                        {item.title}
-                      </h4>
-                      {item.subtitle && (
-                        <p className="font-primary text-[13px] text-[#9C9C9D]">{item.subtitle}</p>
-                      )}
-                    </div>
-                  </div>
+                  <div className="group block">{imageContent}</div>
                 )}
               </motion.div>
             )
           })}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

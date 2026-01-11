@@ -1,9 +1,8 @@
 'use client'
 
-import Image from 'next/image'
-import { motion } from 'motion/react'
-import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
-import { DURATIONS, EASINGS, useImageLoad, getObjectPosition } from '@/utils'
+import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
+import {DURATIONS, EASINGS, getObjectPosition} from '@/utils'
+import {ResponsiveImage, Section, Container, ContentBlock} from '@/components/ui'
 
 interface GrandCollectionProps {
   _key: string
@@ -15,71 +14,12 @@ interface GrandCollectionProps {
   image?: {
     asset?: SanityImageSource
     alt?: string
-    hotspot?: { x: number; y: number }
+    hotspot?: {x: number; y: number}
   }
 }
 
 const COLLECTION_PLACEHOLDER =
   'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&h=700&fit=crop'
-
-function CollectionImage({
-  src,
-  alt,
-  fill,
-  objectPosition,
-}: {
-  src: string
-  alt: string
-  fill?: boolean
-  objectPosition?: string
-}) {
-  const { hasError, isLoaded, handleError, handleLoad } = useImageLoad()
-
-  if (hasError) {
-    return (
-      <div
-        className="relative aspect-[4/3] overflow-hidden bg-[#f5f3f0] flex items-center justify-center"
-        role="img"
-        aria-label={`${alt} - image unavailable`}
-      >
-        <svg
-          className="w-16 h-16 text-muted/40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          aria-hidden="true"
-        >
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <circle cx="8.5" cy="8.5" r="1.5" />
-          <path d="m21 21-3.5-3.5" />
-        </svg>
-      </div>
-    )
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 40 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: DURATIONS.slow, delay: 0.2, ease: EASINGS.elegant }}
-      className="relative aspect-[4/3] overflow-hidden"
-    >
-      <Image
-        src={src}
-        alt={alt}
-        fill={fill}
-        loading="lazy"
-        sizes="(max-width: 1024px) 100vw, 50vw"
-        onLoad={handleLoad}
-        onError={handleError}
-        className={`object-cover transition-transform duration-1200 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        style={fill ? { objectPosition } : undefined}
-      />
-    </motion.div>
-  )
-}
 
 export function GrandCollection({
   eyebrow,
@@ -94,69 +34,36 @@ export function GrandCollection({
     : COLLECTION_PLACEHOLDER
 
   return (
-    <section
-      className="bg-white py-16 md:py-24"
-      role="region"
-      aria-labelledby="grand-collection-title"
-    >
-      <div className="container-jamb">
+    <Section backgroundColor="white" padding="md" aria-labelledby="grand-collection-title">
+      <Container>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
+          <ContentBlock
+            eyebrow={eyebrow}
+            title={title}
+            titleId="grand-collection-title"
+            description={description}
+            primaryButton={ctaLabel ? {label: ctaLabel, href: ctaHref} : undefined}
+            alignment="center"
+            maxWidth="max-w-[700px]"
+          />
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: DURATIONS.slow, ease: EASINGS.elegant }}
-            className="flex flex-col items-center text-center space-y-10"
-          >
-            {eyebrow && (
-              <span className="text-xs tracking-[0.2em] uppercase text-muted">
-                {eyebrow}
-              </span>
-            )}
-
-            <h2
-              id="grand-collection-title"
-              className="text-heading tracking-tight max-w-[700px]"
-            >
-              {title}
-            </h2>
-
-            {description && (
-              <p className="text-paragraph max-w-[520px] leading-relaxed">
-                {description}
-              </p>
-            )}
-
-            {ctaLabel && (
-              <button
-                className="
-        btn-outline
-        mt-4
-        px-10 py-4
-        text-base
-        tracking-wide
-        focus:outline-none
-        focus-visible:ring-2
-        focus-visible:ring-accent
-        focus-visible:ring-offset-2
-        rounded-sm
-      "
-                aria-label={ctaLabel}
-              >
-                {ctaLabel}
-              </button>
-            )}
-          </motion.div>
-
-          <CollectionImage
+          <ResponsiveImage
             src={imageUrl}
             alt={image?.alt || title}
             fill
+            aspectRatio="aspect-[4/3]"
+            className="transition-transform duration-1200 hover:scale-105"
             objectPosition={getObjectPosition(image?.hotspot)}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            animate
+            animationConfig={{
+              initial: {opacity: 0, x: 40},
+              animate: {opacity: 1, x: 0},
+              transition: {duration: DURATIONS.slow, delay: 0.2, ease: EASINGS.elegant},
+            }}
           />
         </div>
-      </div>
-    </section >
+      </Container>
+    </Section>
   )
 }
