@@ -141,7 +141,6 @@ h6 {
   justify-content: center;
   cursor: pointer;
   text-transform: none;
-  /* Removed uppercase unless specified */
 }
 
 .btn-outline:hover,
