@@ -1,20 +1,19 @@
 'use client'
 
-import {motion, AnimatePresence} from 'motion/react'
-import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
+import { motion, AnimatePresence } from 'motion/react'
+import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
 import {
   getImageRevealAnimation,
-  getTextRevealAnimation,
   useCarousel,
   getCarouselVariants,
   getSectionId,
 } from '@/utils'
-import {ResponsiveImage, ImagePlaceholder, Section, Container, ContentBlock} from '@/components/ui'
+import { ResponsiveImage, ImagePlaceholder, Section, Container, ContentBlock } from '@/components/ui'
 
 interface FeatureImageItem {
   src: string
   alt: string
-  hotspot?: {x: number; y: number}
+  hotspot?: { x: number; y: number }
 }
 
 interface FeatureSectionProps {
@@ -32,7 +31,7 @@ interface FeatureSectionProps {
   image?: {
     asset?: SanityImageSource
     alt?: string
-    hotspot?: {x: number; y: number}
+    hotspot?: { x: number; y: number }
   }
   imagePath?: string
   imagePosition?: 'left' | 'right'
@@ -49,7 +48,7 @@ function FeatureImageCarousel({
   autoPlay?: boolean
   interval?: number
 }) {
-  const {currentIndex, direction, goTo, next, prev} = useCarousel(images.length, autoPlay, interval)
+  const { currentIndex, direction, goTo, next, prev } = useCarousel(images.length, autoPlay, interval)
 
   if (images.length === 0) return null
 
@@ -85,7 +84,7 @@ function FeatureImageCarousel({
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const}}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           className="absolute inset-0"
         >
           <ResponsiveImage
@@ -144,9 +143,8 @@ function FeatureImageCarousel({
           <button
             key={index}
             onClick={() => goTo(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-              index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
-            }`}
+            className={`w-2 h-2 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
+              }`}
             aria-label={`Go to slide ${index + 1}`}
             aria-current={index === currentIndex ? 'true' : undefined}
           />
@@ -195,7 +193,7 @@ export function FeatureSection({
               title={title}
               titleId={`feature-title-${sectionId}`}
               description={description}
-              primaryButton={refineLabel ? {label: refineLabel, href: ctaHref} : undefined}
+              primaryButton={refineLabel ? { label: refineLabel, href: ctaHref } : undefined}
               secondaryButton={secondaryButton}
               alignment="center"
             />

@@ -50,6 +50,13 @@
 
 html {
   scroll-behavior: smooth;
+  /* Enhanced smooth scrolling for luxury feel */
+  scroll-padding-top: 80px;
+}
+
+/* Smooth momentum scrolling on iOS */
+* {
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -61,6 +68,8 @@ body {
   letter-spacing: 0%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent layout shift during animations */
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar */
@@ -137,7 +146,7 @@ h6 {
   padding: 0;
 }
 
-/* Button style */
+/* Button style with enhanced transitions */
 .btn-outline {
   font-family: var(--font-primary);
   font-weight: 550;
@@ -149,18 +158,38 @@ h6 {
   border: 1px solid #737373;
   background-color: transparent;
   color: #737373;
-  transition: all 0.3s ease;
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   text-transform: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle shimmer effect on hover */
+.btn-outline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-outline:hover::before {
+  left: 100%;
 }
 
 .btn-outline:hover,
 .btn-outline:focus {
   color: var(--foreground);
-  border-color: #9ca3af;
+  border-color: var(--foreground);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Container */
@@ -258,21 +287,30 @@ h6 {
 }
 
 .skeleton {
-  background: linear-gradient(90deg,
-      var(--background) 0px,
-      var(--cream) 40px,
-      var(--background) 80px);
+  background: linear-gradient(
+    90deg,
+    var(--background) 0px,
+    var(--cream) 40px,
+    var(--background) 80px
+  );
   background-size: 200px 100%;
   animation: skeleton 1.5s ease-in-out infinite;
 }
 
-/* Smooth image loading */
+/* Smooth image loading with reveal animation */
 img {
   opacity: 1;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 img[data-loading='true'] {
   opacity: 0;
+}
+
+/* Enhanced image hover effects */
+img:hover {
+  transform: scale(1.02);
+  transition: transform 1.2s cubic-bezier(0.12, 0.88, 0.18, 1);
 }
 
 /* Print styles */
@@ -284,7 +322,6 @@ img[data-loading='true'] {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {

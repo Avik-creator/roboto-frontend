@@ -54,6 +54,8 @@ interface ResponsiveImageProps {
     animate?: Record<string, any>
     transition?: Record<string, any>
   }
+  enableHover?: boolean
+  parallax?: boolean
 }
 
 export function ResponsiveImage({
@@ -71,6 +73,8 @@ export function ResponsiveImage({
   onError: externalOnError,
   animate = false,
   animationConfig,
+  enableHover = true,
+  parallax = false,
 }: ResponsiveImageProps) {
   const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
 
@@ -89,7 +93,7 @@ export function ResponsiveImage({
   }
 
   const imageElement = (
-    <div className={`${aspectRatio} relative overflow-hidden bg-[#f5f3f0] ${className}`}>
+    <div className={`${aspectRatio} relative overflow-hidden bg-[#f5f3f0] ${className} group`}>
       <Image
         src={src}
         alt={alt}
@@ -101,9 +105,21 @@ export function ResponsiveImage({
         sizes={sizes}
         onLoad={combinedHandleLoad}
         onError={combinedHandleError}
-        className={`object-cover transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`
+          object-cover 
+          transition-all 
+          duration-[1200ms] 
+          ease-[cubic-bezier(0.12,0.88,0.18,1)]
+          ${isLoaded ? 'opacity-100' : 'opacity-0'}
+          ${enableHover ? 'group-hover:scale-105' : ''}
+          ${parallax ? 'will-change-transform' : ''}
+        `}
         style={fill ? {objectPosition} : undefined}
       />
+      {/* Overlay for depth on hover */}
+      {enableHover && (
+        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none" />
+      )}
     </div>
   )
 
@@ -113,7 +129,7 @@ export function ResponsiveImage({
         initial={animationConfig.initial}
         animate={animationConfig.animate}
         whileInView={animationConfig.animate}
-        viewport={{once: true}}
+        viewport={{once: true, margin: '-80px'}}
         transition={animationConfig.transition}
       >
         {imageElement}

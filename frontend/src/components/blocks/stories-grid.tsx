@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import {motion} from 'motion/react'
-import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
+import { motion } from 'motion/react'
+import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
 import {
   DURATIONS,
   EASINGS,
@@ -12,7 +12,7 @@ import {
   getImageDimensions,
   getAriaLabel,
 } from '@/utils'
-import {ResponsiveImage, Section, Container} from '@/components/ui'
+import { ResponsiveImage, Section, Container } from '@/components/ui'
 
 interface MediaItem {
   _key: string
@@ -69,11 +69,11 @@ export function MediaGrid({
     items?.length > 0
       ? items
       : Array(4).fill({
-          _key: 'placeholder',
-          title: 'Lorem Ipsum',
-          subtitle: 'Subtitle',
-          imagePath: variant === 'stories' ? '/jambmostprizedpossion.jpg' : '/chair.png',
-        })
+        _key: 'placeholder',
+        title: 'Lorem Ipsum',
+        subtitle: 'Subtitle',
+        imagePath: variant === 'stories' ? '/jambmostprizedpossion.jpg' : '/chair.png',
+      })
 
   const gridColsClass = getGridColsClass(columns)
 
@@ -87,11 +87,12 @@ export function MediaGrid({
       <Container maxWidth="default">
         {sectionTitle && (
           <motion.h3
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
-            transition={{duration: DURATIONS.medium, ease: EASINGS.elegant}}
-            className="font-primary text-[24px] md:text-[28px] text-center mb-20 md:mb-24 tracking-tight text-[#1a1a1a]"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: DURATIONS.medium, ease: EASINGS.elegant }}
+            className="font-primary text-[21px] text-center mb-20 md:mb-24 text-black font-[550] leading-[18px]"
+
           >
             {sectionTitle}
           </motion.h3>
@@ -106,16 +107,16 @@ export function MediaGrid({
             const aspectRatio: 'square' | 'portrait' | 'landscape' | 'tall' =
               item.aspectRatio || (variant === 'products' ? 'portrait' : 'portrait')
             const aspectRatioClass = getAspectRatioClass(aspectRatio)
-            const {width, height} = getImageDimensions(aspectRatio)
+            const { width, height } = getImageDimensions(aspectRatio)
 
             const imageUrl = item.imagePath
               ? item.imagePath
               : item.image?.asset
                 ? urlFor(item.image.asset)
-                    .width(width)
-                    .height(variant === 'stories' ? 500 : height)
-                    .quality(85)
-                    .url()
+                  .width(width)
+                  .height(variant === 'stories' ? 500 : height)
+                  .quality(85)
+                  .url()
                 : variant === 'stories'
                   ? '/jambmostprizedpossion.jpg'
                   : '/chair.png'
@@ -150,9 +151,9 @@ export function MediaGrid({
             return (
               <motion.div
                 key={`${item._key}-${index}`}
-                initial={{opacity: 0, y: 35}}
-                whileInView={{opacity: 1, y: 0}}
-                viewport={{once: true, margin: '-50px'}}
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
                 transition={{
                   duration: DURATIONS.medium,
                   delay: getStaggerDelay(index, 0.1),
@@ -176,6 +177,6 @@ export function MediaGrid({
           })}
         </div>
       </Container>
-    </Section>
+    </Section >
   )
 }
