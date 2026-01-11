@@ -106,7 +106,7 @@ function FeatureImageCarousel({
 
       <button
         onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         aria-label="Previous image"
       >
         <svg
@@ -123,7 +123,7 @@ function FeatureImageCarousel({
 
       <button
         onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         aria-label="Next image"
       >
         <svg
