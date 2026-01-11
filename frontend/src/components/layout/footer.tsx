@@ -190,6 +190,7 @@ function FooterSection({
                 <li key={`${link.label}-${index}`} className="m-0 p-0">
                   <Link
                     href={link.href}
+                    scroll
                     className="footer-text hover:text-foreground transition-colors no-underline block hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
                     style={{ color: '#9C9C9D' }}
                     rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -397,6 +398,7 @@ export function Footer() {
                   <span className="sr-only">Privacy Policy agreement. </span>I agree to our{' '}
                   <Link
                     href="/privacy"
+                    scroll
                     className="hover:text-foreground underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
                   >
                     Privacy Policy
