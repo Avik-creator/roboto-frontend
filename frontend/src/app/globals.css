@@ -109,7 +109,7 @@ body {
 /* Typography Utilities */
 .text-paragraph {
   font-family: var(--font-primary);
-  font-weight: 550;
+  font-weight: 300;
   font-size: 16px;
   line-height: 25px;
   letter-spacing: 0%;
@@ -287,12 +287,10 @@ h6 {
 }
 
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--background) 0px,
-    var(--cream) 40px,
-    var(--background) 80px
-  );
+  background: linear-gradient(90deg,
+      var(--background) 0px,
+      var(--cream) 40px,
+      var(--background) 80px);
   background-size: 200px 100%;
   animation: skeleton 1.5s ease-in-out infinite;
 }
@@ -322,6 +320,7 @@ img:hover {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
