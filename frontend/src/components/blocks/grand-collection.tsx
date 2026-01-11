@@ -1,9 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import {motion} from 'motion/react'
-import {urlFor, type SanityImageSource} from '@/sanity/lib/image'
-import {DURATIONS, EASINGS, useImageLoad, getObjectPosition} from '@/utils'
+import { motion } from 'motion/react'
+import { urlFor, type SanityImageSource } from '@/sanity/lib/image'
+import { DURATIONS, EASINGS, useImageLoad, getObjectPosition } from '@/utils'
 
 interface GrandCollectionProps {
   _key: string
@@ -15,7 +15,7 @@ interface GrandCollectionProps {
   image?: {
     asset?: SanityImageSource
     alt?: string
-    hotspot?: {x: number; y: number}
+    hotspot?: { x: number; y: number }
   }
 }
 
@@ -33,7 +33,7 @@ function CollectionImage({
   fill?: boolean
   objectPosition?: string
 }) {
-  const {hasError, isLoaded, handleError, handleLoad} = useImageLoad()
+  const { hasError, isLoaded, handleError, handleLoad } = useImageLoad()
 
   if (hasError) {
     return (
@@ -60,10 +60,10 @@ function CollectionImage({
 
   return (
     <motion.div
-      initial={{opacity: 0, x: 40}}
-      whileInView={{opacity: 1, x: 0}}
-      viewport={{once: true}}
-      transition={{duration: DURATIONS.slow, delay: 0.2, ease: EASINGS.elegant}}
+      initial={{ opacity: 0, x: 40 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: DURATIONS.slow, delay: 0.2, ease: EASINGS.elegant }}
       className="relative aspect-[4/3] overflow-hidden"
     >
       <Image
@@ -75,7 +75,7 @@ function CollectionImage({
         onLoad={handleLoad}
         onError={handleError}
         className={`object-cover transition-transform duration-1200 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        style={fill ? {objectPosition} : undefined}
+        style={fill ? { objectPosition } : undefined}
       />
     </motion.div>
   )
@@ -101,36 +101,51 @@ export function GrandCollection({
     >
       <div className="container-jamb">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
+
           <motion.div
-            initial={{opacity: 0, x: -40}}
-            whileInView={{opacity: 1, x: 0}}
-            viewport={{once: true}}
-            transition={{duration: DURATIONS.slow, ease: EASINGS.elegant}}
-            className="space-y-12"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: DURATIONS.slow, ease: EASINGS.elegant }}
+            className="flex flex-col items-center text-center space-y-10"
           >
             {eyebrow && (
-              <span className="text-xs font-primary uppercase tracking-widest text-muted">
+              <span className="text-xs tracking-[0.2em] uppercase text-muted">
                 {eyebrow}
               </span>
             )}
 
-            <h2 id="grand-collection-title" className="text-heading italic tracking-tight">
+            <h2
+              id="grand-collection-title"
+              className="text-heading tracking-tight max-w-[700px]"
+            >
               {title}
             </h2>
+
             {description && (
-              <div className="flex justify-center lg:justify-start">
-                <p className="text-paragraph mt-6 max-w-[450px]">{description}</p>
-              </div>
+              <p className="text-paragraph max-w-[520px] leading-relaxed">
+                {description}
+              </p>
             )}
+
             {ctaLabel && (
-              <div className="flex justify-center lg:justify-start mt-6">
-                <button
-                  className="btn-outline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
-                  aria-label={`${ctaLabel} - opens in new tab`}
-                >
-                  {ctaLabel}
-                </button>
-              </div>
+              <button
+                className="
+        btn-outline
+        mt-4
+        px-10 py-4
+        text-base
+        tracking-wide
+        focus:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-accent
+        focus-visible:ring-offset-2
+        rounded-sm
+      "
+                aria-label={ctaLabel}
+              >
+                {ctaLabel}
+              </button>
             )}
           </motion.div>
 
@@ -142,6 +157,6 @@ export function GrandCollection({
           />
         </div>
       </div>
-    </section>
+    </section >
   )
 }

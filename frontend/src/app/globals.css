@@ -165,7 +165,7 @@ h6 {
 
 /* Container */
 .container-jamb {
-  max-width: 1440px;
+  max-width: full;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
